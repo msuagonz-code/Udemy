@@ -12,12 +12,14 @@ import java.util.List;
 
 public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer> {
 
-    private Connection getConnection() throws SQLException {
-        return ConexionBaseDatos.getConnecion();
+    private Connection conn;
+
+    public JobHistoryRepositoryImp(Connection conn) {
+        this.conn = conn;
     }
 
     @Override
-    public List<JobHistory> listar() {
+    public List<JobHistory> listar() throws SQLException {
         List<JobHistory> trabajos = new ArrayList<>();
         String sql = "SELECT " +
                 "    H.EMPLOYEE_ID," +
@@ -31,9 +33,8 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
                 " FROM JOB_HISTORY H" +
                 " INNER JOIN JOBS J ON H.JOB_ID = J.JOB_ID";
         try(
-                Connection conn = this.getConnection();
                 Statement sentencia = conn.createStatement();
-                ResultSet resultSet = sentencia.executeQuery(sql)
+                ResultSet resultSet = sentencia.executeQuery(sql);
         ){
 
             while(resultSet.next()){
@@ -41,14 +42,12 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
                 trabajos.add(trabajo);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
         return trabajos;
     }
 
     @Override
-    public JobHistory porId(Integer id) {
+    public JobHistory porId(Integer id) throws SQLException {
         JobHistory historico = new JobHistory();
         String sql = "SELECT " +
                 "    H.EMPLOYEE_ID," +
@@ -62,9 +61,7 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
                 " FROM JOB_HISTORY H" +
                 " INNER JOIN JOBS J ON H.JOB_ID = J.JOB_ID WHERE H.EMPLOYEE_ID = ?";
 
-        try(
-                Connection conn = this.getConnection();
-                PreparedStatement sentencia = conn.prepareStatement(sql)){
+        try(PreparedStatement sentencia = conn.prepareStatement(sql)){
             //En el try no se puede ejecutar el metodo setString porque este metodo no es AutoCloseable
             // prepareStatement de connection si es AutoCloseable
             sentencia.setInt(1, id);
@@ -75,26 +72,21 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
                 }
             }
             //Cerramos el resultset aqui porque no pudimos declararlo en el try
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-
         return historico;
     }
 
     @Override
-    public void guardar(JobHistory jobHistory) {
+    public JobHistory guardar(JobHistory jobHistory) throws SQLException {
 
         String sqlUpdate = "UPDATE JOB_HISTORY SET EMPLOYEE_ID = ?," +
-            " START_DATE = ?," +
-            " END_DATE = ?," +
-            " JOB_ID = ?," +
-            " DEPARTMENT_ID = ?" +
-            " WHERE EMPLOYEE_ID = ?";
+                " START_DATE = ?," +
+                " END_DATE = ?," +
+                " JOB_ID = ?," +
+                " DEPARTMENT_ID = ?" +
+                " WHERE EMPLOYEE_ID = ?";
 
-        try(
-                Connection conn = this.getConnection();
-                PreparedStatement updateSentencia = conn.prepareStatement(sqlUpdate)){
+        try(PreparedStatement updateSentencia = conn.prepareStatement(sqlUpdate)){
 
             updateSentencia.setInt(1, jobHistory.getEmployeeId());
             updateSentencia.setDate(2, new Date(jobHistory.getStartDate().getTime()));
@@ -118,24 +110,17 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
                 }
 
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al guardar el trabajo", e);
+            return jobHistory;
         }
-
     }
 
     @Override
-    public void eliminar(Integer id) {
+    public void eliminar(Integer id) throws SQLException {
         String delete = "DELETE FROM JOB_HISTORY WHERE EMPLOYEE_ID = ?";
-        try(
-                Connection conn = this.getConnection();
-                PreparedStatement sentenciaEliminar = conn.prepareStatement(delete)){
+        try(PreparedStatement sentenciaEliminar = conn.prepareStatement(delete)){
             sentenciaEliminar.setInt(1, id);
             sentenciaEliminar.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar el trabajo", e);
         }
     }
 

@@ -9,14 +9,17 @@ public class Jobs {
 
     private Integer maxSalary;
 
+    private String sku;
+
     public Jobs() {
     }
 
-    public Jobs(String jobId, String jobTitle, Integer minSalary, Integer maxSalary) {
+    public Jobs(String jobId, String jobTitle, Integer minSalary, Integer maxSalary, String sku) {
         this.jobId = jobId;
         this.jobTitle = jobTitle;
         this.minSalary = minSalary;
         this.maxSalary = maxSalary;
+        this.sku = sku;
     }
 
     public String getJobId() {
@@ -51,12 +54,20 @@ public class Jobs {
         this.maxSalary = maxSalary;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
     @Override
     public String toString() {
         return "Id: " + this.getJobId() +
                 "\t|\t Nombre: " + this.getJobTitle() +
                 "\t|\t Salario maximo: "+ this.getMaxSalary() +
-                "\t|\t Salario minimo: "+ this.getMinSalary() + "\t|\t";
+                "\t|\t Salario minimo: "+ this.getMinSalary() +
+                "\t|\t Codigo SKU: "+ this.getSku() +"\t|\t";
     }
-
 }
