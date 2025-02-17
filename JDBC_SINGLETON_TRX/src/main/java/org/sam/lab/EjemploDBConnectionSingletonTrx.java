@@ -22,41 +22,69 @@ import java.util.Locale;
  * */
 
 public class EjemploDBConnectionSingletonTrx {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
 
-        try(Connection con = ConexionBaseDatos.getConnectionInstance()) {
-            Repositorio<Jobs, String> trabajosRepositorio = new JobsRepositorioImpl();
+        try(Connection conn = ConexionBaseDatos.getConnectionInstance()) {
 
-            // Obtener una fila por Id
-            System.out.println("\r\n################ porID ################\r\n");
-            Jobs trabajo = trabajosRepositorio.porId("HR_REP");
-            printObjeto(trabajo);
+            if(conn.getAutoCommit()){
+                // Se setea el auto commit a false para poder hacer rollback
+                conn.setAutoCommit(false);
+            }
 
-            // Insert
-            System.out.println("\r\n################ Insert ################\r\n");
-            trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, "abcd1234");
-            trabajosRepositorio.guardar(trabajo);
-            printObjeto(trabajosRepositorio.porId("IT_PROG_JR"));
+            try {
+                Repositorio<Jobs, String> trabajosRepositorio = new JobsRepositorioImpl();
 
-            //Update
-            System.out.println("\r\n################ Update ################\r\n");
-            trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, "abcd1234");
-            trabajosRepositorio.guardar(trabajo);
-            printObjeto(trabajosRepositorio.porId("HR_REP"));
+                // Obtener una fila por Id
+                System.out.println("\r\n################ porID ################\r\n");
+                Jobs trabajo = trabajosRepositorio.porId("HR_REP");
+                printObjeto(trabajo);
 
+                /*
+                // Rompe la restricción de valor unico en la tabla, para hacer rollback
+                String skuDuplicado = "abcd1234";
 
-            // Eliminar
-            //trabajosRepositorio.eliminar("IT_PROG_JR");
+                // Insert
+                System.out.println("\r\n################ Insert ################\r\n");
+                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, skuDuplicado);
+                trabajosRepositorio.guardar(trabajo);
+                printObjeto(trabajosRepositorio.porId("IT_PROG_JR"));
 
+                //Update
+                System.out.println("\r\n################ Update ################\r\n");
+                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, skuDuplicado);
+                trabajosRepositorio.guardar(trabajo);
+                printObjeto(trabajosRepositorio.porId("HR_REP"));
+                */
 
-            // Obtener una lista
-            System.out.println("\r\n################ Listado Completo ################\r\n");
-            List<Jobs> listaTrabajo= trabajosRepositorio.listar();
-            listaTrabajo.forEach(EjemploDBConnectionSingletonTrx::printObjeto);
+                /*
+                * Este bloque no viola la restrucción del SKU
+                * */
+                // Insert
+                System.out.println("\r\n################ Insert ################\r\n");
+                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, "abcd1234");
+                trabajosRepositorio.guardar(trabajo);
+                printObjeto(trabajosRepositorio.porId("IT_PROG_JR"));
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+                //Update
+                System.out.println("\r\n################ Update ################\r\n");
+                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, null);
+                trabajosRepositorio.guardar(trabajo);
+                printObjeto(trabajosRepositorio.porId("HR_REP"));
+
+                // Eliminar
+                trabajosRepositorio.eliminar("IT_PROG_JR");
+
+                // Obtener una lista
+                System.out.println("\r\n################ Listado Completo ################\r\n");
+                List<Jobs> listaTrabajo = trabajosRepositorio.listar();
+                listaTrabajo.forEach(EjemploDBConnectionSingletonTrx::printObjeto);
+
+                conn.commit(); //Al finalizar las operacione se hace el commit
+            } catch (SQLException e) {
+                conn.rollback(); // Si ha ocurrido un error se hace rollback
+                e.printStackTrace();
+            }
+        } // Aquí se cierra la conexion con el try con recursos
 
     }
 

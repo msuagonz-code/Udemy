@@ -16,9 +16,8 @@ public class JobsRepositorioImpl implements Repositorio<Jobs, String> {
     }
 
     @Override
-    public List<Jobs> listar() {
+    public List<Jobs> listar() throws SQLException {
         List<Jobs> trabajos = new ArrayList<>();
-
         try(
                 Statement sentencia = this.getConnection().createStatement();
                 ResultSet resultSet = sentencia.executeQuery("SELECT * FROM JOBS");
@@ -29,15 +28,12 @@ public class JobsRepositorioImpl implements Repositorio<Jobs, String> {
                     trabajos.add(trabajo);
                 }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-
         return trabajos;
     }
 
     @Override
-    public Jobs porId(String id) {
+    public Jobs porId(String id) throws SQLException {
         Jobs trabajo = new Jobs();
 
         try(PreparedStatement sentencia = getConnection().prepareStatement("SELECT * FROM JOBS WHERE JOB_ID = ?")){
@@ -51,15 +47,12 @@ public class JobsRepositorioImpl implements Repositorio<Jobs, String> {
                 }
             }
             //Cerramos el resultset aqui porque no pudimos declararlo en el try
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
-
         return trabajo;
     }
 
     @Override
-    public void guardar(Jobs jobs) {
+    public void guardar(Jobs jobs) throws SQLException {
         String sqlUpdate = "UPDATE JOBS SET JOB_TITLE = ?, MIN_SALARY = ?, MAX_SALARY = ?, SKU = ? WHERE JOB_ID = ?";
         try(PreparedStatement updateSentencia = getConnection().prepareStatement(sqlUpdate)){
 
@@ -86,20 +79,16 @@ public class JobsRepositorioImpl implements Repositorio<Jobs, String> {
 
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al guardar el trabajo", e);
         }
     }
 
     @Override
-    public void eliminar(String id) {
+    public void eliminar(String id) throws SQLException {
         String delete = "DELETE FROM JOBS WHERE JOB_ID = ?";
         try(PreparedStatement sentenciaEliminar = getConnection().prepareStatement(delete)){
             sentenciaEliminar.setString(1, id);
             sentenciaEliminar.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar el trabajo", e);
         }
     }
 
