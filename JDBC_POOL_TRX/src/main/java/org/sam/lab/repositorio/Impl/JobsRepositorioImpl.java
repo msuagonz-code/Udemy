@@ -13,6 +13,13 @@ public class JobsRepositorioImpl implements Repositorio<Jobs, String> {
 
     private Connection conn;
 
+    public JobsRepositorioImpl() {
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
     public JobsRepositorioImpl(Connection conn) {
         this.conn = conn;
     }

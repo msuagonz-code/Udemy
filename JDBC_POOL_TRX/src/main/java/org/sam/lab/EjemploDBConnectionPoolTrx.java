@@ -5,6 +5,8 @@ import org.sam.lab.modelo.Jobs;
 import org.sam.lab.repositorio.Impl.JobHistoryRepositoryImp;
 import org.sam.lab.repositorio.Impl.JobsRepositorioImpl;
 import org.sam.lab.repositorio.Repositorio;
+import org.sam.lab.servicio.RRHHServicio;
+import org.sam.lab.servicio.Servicio;
 import org.sam.lab.util.ConexionBaseDatos;
 
 import java.sql.Connection;
@@ -24,105 +26,99 @@ import java.util.Locale;
 public class EjemploDBConnectionPoolTrx {
         public static void main(String[] args) throws ParseException, SQLException {
 
-                try (Connection conn = ConexionBaseDatos.getConnecion()) {
+                Servicio servicio = new RRHHServicio();
 
-                        if (conn.getAutoCommit()) {
-                                // Se setea el auto commit a false para poder hacer rollback
-                                conn.setAutoCommit(false);
-                        }
+                // Obtener una fila por Id
+                System.out.println("\r\n################ Historico porID ################\r\n");
+                JobHistory historico = servicio.porIdHistorico(102);
+                printObjeto(historico);
 
-                        try {
-                                Repositorio<JobHistory, Integer> historicoRepositorio = new JobHistoryRepositoryImp(conn);
-                                Repositorio <Jobs, String> trabajosRepositorio = new JobsRepositorioImpl(conn);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                String dateInStartDate = "13/01/01";
+                String dateInEndDate = "24/07/06";
 
-                                // Obtener una fila por Id
-                                System.out.println("\r\n################ Historico porID ################\r\n");
-                                JobHistory historico = historicoRepositorio.porId(102);
-                                printObjeto(historico);
+                // Update
+                java.util.Date startDate = formatter.parse(dateInStartDate);
+                java.util.Date endDate = formatter.parse(dateInEndDate);
 
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-                                String dateInStartDate = "13/01/01";
-                                String dateInEndDate = "24/07/06";
+                System.out.println("\r\n################ Historico Update ################\r\n");
+                Jobs trabajo = new Jobs("IT_PROG", "Programmer", 4000, 10000, null);
+                historico = new JobHistory(102, startDate, endDate, trabajo, 70);
+                JobHistory update = servicio.guardarHistoricoConTrabajo(historico, trabajo);
+                printObjeto(update);
 
-                                //Update
-                                java.util.Date startDate = formatter.parse(dateInStartDate);
-                                java.util.Date endDate = formatter.parse(dateInEndDate);
+                // Insert
+                System.out.println("\r\n################ Historico Insert ################\r\n");
+                historico = new JobHistory(108, startDate, endDate, trabajo, 60);
+                JobHistory insert = servicio.guardarHistorico(historico);
+                printObjeto(insert);
 
-                                System.out.println("\r\n################ Historico Update ################\r\n");
-                                historico = new JobHistory(102, startDate, endDate, new Jobs("IT_PROG", null, null, null, null), 70);
-                                JobHistory update = historicoRepositorio.guardar(historico);
-                                printObjeto(update);
+                // Eliminar
+                System.out.println("\r\n################ Historico Eliminar ################\r\n");
+                System.out.println("EMPLOYEE_ID: " + 108);
+                servicio.eliminarHistorico(108);
 
-                                // Insert
-                                System.out.println("\r\n################ Historico Insert ################\r\n");
-                                historico = new JobHistory(108, startDate, endDate, new Jobs("IT_PROG", null, null, null, null), 60);
-                                JobHistory insert = historicoRepositorio.guardar(historico);
-                                printObjeto(insert);
+                System.out.println("\r\n################ Historico Listado Completo ################\r\n");
+                List<JobHistory> listaOrdenada = servicio.listarHistorico();
+                listaOrdenada.sort(Comparator.comparing(JobHistory::getEmployeeId));
+                listaOrdenada.forEach(EjemploDBConnectionPoolTrx::printObjeto);
 
-                                // Eliminar
-                                System.out.println("\r\n################ Historico Eliminar ################\r\n");
-                                System.out.println("EMPLOYEE_ID: " + 108);
-                                historicoRepositorio.eliminar(108);
+                // Obtener una fila por Id
+                System.out.println("\r\n################ Trabajo porID ################\r\n");
+                trabajo = servicio.porIdTrabajo("HR_REP");
+                printObjeto(trabajo);
 
-                                System.out.println("\r\n################ Historico Listado Completo ################\r\n");
-                                List<JobHistory> listaOrdenada = historicoRepositorio.listar();
-                                listaOrdenada.sort(Comparator.comparing(JobHistory::getEmployeeId));
-                                listaOrdenada.forEach(EjemploDBConnectionPoolTrx::printObjeto);
+                // Rompe la restricción de valor unico en la tabla, para hacer rollback
+                /*
+                String skuDuplicado = "abcd1234";
 
-                                // Obtener una fila por Id
-                                System.out.println("\r\n################ Trabajo porID ################\r\n");
-                                Jobs trabajo = trabajosRepositorio.porId("HR_REP");
-                                printObjeto(trabajo);
+                // Insert
+                System.out.println("\r\n################ Trabajo Insert ################\r\n");
+                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, skuDuplicado);
+                servicio.guardarTrabajo(trabajo);
+                printObjeto(servicio.porIdTrabajo("IT_PROG_JR"));
 
-                                // Rompe la restricción de valor unico en la tabla, para hacer rollback
-                                /*
-                                String skuDuplicado = "abcd1234";
+                //Update
+                System.out.println("\r\n################ Trabajo Update ################\r\n");
+                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, skuDuplicado);
+                servicio.guardarTrabajo(trabajo);
+                printObjeto(servicio.porIdTrabajo("HR_REP"));
+                */
+                /*
+                 * Este bloque no viola la restrucción del SKU
+                 */
 
-                                // Insert
-                                System.out.println("\r\n################ Trabajo Insert ################\r\n");
-                                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, skuDuplicado);
-                                trabajosRepositorio.guardar(trabajo);
-                                printObjeto(trabajosRepositorio.porId("IT_PROG_JR"));
+                // Insert
+                System.out.println("\r\n################ Trabajo Insert ################\r\n");
+                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, "abcd1234");
+                servicio.guardarTrabajo(trabajo);
+                printObjeto(servicio.porIdTrabajo("IT_PROG_JR"));
 
-                                //Update
-                                System.out.println("\r\n################ Trabajo Update ################\r\n");
-                                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, skuDuplicado);
-                                trabajosRepositorio.guardar(trabajo);
-                                printObjeto(trabajosRepositorio.porId("HR_REP"));
-                                */
+                // Update
+                System.out.println("\r\n################ Trabajo Update ################\r\n");
+                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, null);
+                servicio.guardarTrabajo(trabajo);
+                printObjeto(servicio.porIdTrabajo("HR_REP"));
 
-                                /*
-                                 * Este bloque no viola la restrucción del SKU
-                                 * */
+                // Eliminar
+                System.out.println("\r\n################ Trabajo Eliminar ################\r\n");
+                System.out.println("JOB_ID: IT_PROG_JR");
+                servicio.eliminarTrabajo("IT_PROG_JR");
 
-                                // Insert
-                                System.out.println("\r\n################ Trabajo Insert ################\r\n");
-                                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, "abcd1234");
-                                trabajosRepositorio.guardar(trabajo);
-                                printObjeto(trabajosRepositorio.porId("IT_PROG_JR"));
+                // Obtener una lista
+                System.out.println("\r\n################ Trabajo Listado Completo ################\r\n");
+                List<Jobs> listaTrabajo = servicio.listarTrabajo();
+                listaTrabajo.forEach(EjemploDBConnectionPoolTrx::printObjeto);
+                
+                trabajo = new Jobs("IT_PROG_JR", "Junior Programmer", 4000, 4900, "abcd1234");
+                historico = new JobHistory(102, startDate, endDate, null, 70);
+                JobHistory nuevoHistorico = servicio.guardarHistoricoConTrabajo(historico, trabajo);
+                Jobs nuevoTrabajo = servicio.porIdTrabajo(trabajo.getJobId());
+                System.out.println("\r\n################ guardarHistoricoConTrabajo nuevoTrabajo ################\r\n");
+                printObjeto(nuevoTrabajo);
+                System.out.println("\r\n################ guardarHistoricoConTrabajo nuevoHistorico ################\r\n");
+                printObjeto(nuevoHistorico);
 
-                                //Update
-                                System.out.println("\r\n################ Trabajo Update ################\r\n");
-                                trabajo = new Jobs("HR_REP", "Recursos Humanos", 4200, 5000, null);
-                                trabajosRepositorio.guardar(trabajo);
-                                printObjeto(trabajosRepositorio.porId("HR_REP"));
-
-                                // Eliminar
-                                System.out.println("\r\n################ Historico Eliminar ################\r\n");
-                                System.out.println("JOB_ID: IT_PROG_JR");
-                                trabajosRepositorio.eliminar("IT_PROG_JR");
-
-                                // Obtener una lista
-                                System.out.println("\r\n################ Trabajo Listado Completo ################\r\n");
-                                List <Jobs> listaTrabajo = trabajosRepositorio.listar();
-                                listaTrabajo.forEach(EjemploDBConnectionPoolTrx::printObjeto);
-
-                        conn.commit(); //Al finalizar las operacione se hace el commit
-                        } catch (SQLException e) {
-                                conn.rollback(); // Si ha ocurrido un error se hace rollback
-                                e.printStackTrace();
-                        }
-                }
         }
 
         public static void printObjeto(Object objeto) {

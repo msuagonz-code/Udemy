@@ -14,6 +14,13 @@ public class JobHistoryRepositoryImp implements Repositorio<JobHistory, Integer>
 
     private Connection conn;
 
+    public JobHistoryRepositoryImp() {
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
     public JobHistoryRepositoryImp(Connection conn) {
         this.conn = conn;
     }
