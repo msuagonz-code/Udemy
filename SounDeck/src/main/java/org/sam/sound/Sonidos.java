@@ -4,7 +4,12 @@ public enum Sonidos {
     FART("fart"),
     HELL_NO("Hell-No"),
     MY_LIFE_BE_LIKE("my-life-be-like"),
-    WHAT_THE_DOG_DOING("what-the-dog-doing");
+    WHAT_THE_DOG_DOING("what-the-dog-doing"),
+    BRAH("brah"),
+    FART2("fart2"),
+    BANG("bang"),
+    NOP("nop"),
+    FBI("fbi");
 
     private String nombre;
     private String direccion;
@@ -23,6 +28,7 @@ public enum Sonidos {
     }
 
     public String direccionCompleta(){
+        System.out.println("direccionCompleta: " + (this.direccion() +""+this.nombre()+".mp3"));
         return this.direccion() +""+this.nombre()+".mp3";
     }
 

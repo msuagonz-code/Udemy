@@ -21,21 +21,35 @@ public class Main extends JFrame implements ActionListener {
         JButton boton2 = new JButton(Sonidos.FART.nombre());
         JButton boton3 = new JButton(Sonidos.MY_LIFE_BE_LIKE.nombre());
         JButton boton4 = new JButton(Sonidos.WHAT_THE_DOG_DOING.nombre());
+        JButton boton5 = new JButton(Sonidos.BRAH.nombre());
+        JButton boton6 = new JButton(Sonidos.FART2.nombre());
+        JButton boton7 = new JButton(Sonidos.BANG.nombre());
+        JButton boton8 = new JButton(Sonidos.NOP.nombre());
+        JButton boton9 = new JButton(Sonidos.FBI.nombre());
 
-        JPanel panelCenter = new JPanel( new GridLayout(2, 2, 5, 5));
+        JPanel panelCenter = new JPanel( new GridLayout(3, 3, 5, 5));
         contenedor.add(panelCenter, BorderLayout.CENTER);
 
         panelCenter.add(boton1);
         panelCenter.add(boton2);
         panelCenter.add(boton3);
         panelCenter.add(boton4);
+        panelCenter.add(boton5);
+        panelCenter.add(boton6);
+        panelCenter.add(boton7);
+        panelCenter.add(boton8);
+        panelCenter.add(boton9);
 
         boton1.addActionListener(this);
         boton2.addActionListener(this);
         boton3.addActionListener(this);
         boton4.addActionListener(this);
+        boton5.addActionListener(this);
+        boton6.addActionListener(this);
+        boton7.addActionListener(this);
+        boton8.addActionListener(this);
+        boton9.addActionListener(this);
         this.player = new AudioPlayer();
-
 
 
         setSize(400, 200);
