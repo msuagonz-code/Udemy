@@ -11,10 +11,10 @@ public class Main extends JFrame {
         super("Ejemplo de boton y Eventos");
 
         JButton boton = new JButton("Hell-NO");
-        String audioPath = "C:\\Java\\SamDeck\\audios\\Hell-No.mp3";
+        String audioPath = "C:\\Java\\SWING\\audios\\Hell-No.mp3";
         long time = 6;
 
-        boton.addActionListener(event -> player(audioPath, time));
+        boton.addActionListener(event -> player(audioPath));
 
         boton.setSize(100, 100);
         getContentPane().add(boton);
@@ -27,7 +27,7 @@ public class Main extends JFrame {
         new Main();
     }
 
-    private static void player(String audioPath, long time){
+    private static void player(String audioPath){
         // Cargar VLCJ
         AudioPlayerComponent audioPlayer = new AudioPlayerComponent();
 
@@ -36,7 +36,7 @@ public class Main extends JFrame {
 
         // Esperar mientras suena
         try {
-            Thread.sleep(time * 1000); // Ajusta según la duración del audio
+            Thread.sleep(audioPlayer.mediaPlayer().status().length()); // Ajusta según la duración del audio
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
