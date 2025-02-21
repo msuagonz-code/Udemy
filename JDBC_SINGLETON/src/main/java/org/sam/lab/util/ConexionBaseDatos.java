@@ -22,6 +22,7 @@ public class ConexionBaseDatos {
         //Constructor privado
     }
 
+    //Double-Checked Locking
     public static Connection getConnectionInstance() throws SQLException {
         if (connection == null || connection.isClosed()) {  // Verifica si la conexión sigue activa
             synchronized (ConexionBaseDatos.class) {  // Bloqueo para evitar hilos creando conexiones múltiples

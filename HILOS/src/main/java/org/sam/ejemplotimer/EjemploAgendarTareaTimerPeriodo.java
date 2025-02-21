@@ -1,5 +1,7 @@
 package org.sam.ejemplotimer;
 
+import javax.tools.Tool;
+import java.awt.*;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EjemploAgendarTareaTimerPeriodo {
     public static void main(String[] args) {
 
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
         AtomicInteger contadorAtomico = new AtomicInteger(3);
         Timer timer = new Timer();
 
@@ -22,10 +25,11 @@ public class EjemploAgendarTareaTimerPeriodo {
                 }else {
                     System.out.println("Finaliza el tiempo ");
                     timer.cancel();
+                    toolkit.beep();
                 }
             }
         }, 500, 1000);
 
-        System.out.println("Agendamos tarea para 5 seg más...");
+        System.out.println("Agendamos tarea para 10 seg más...");
     }
 }

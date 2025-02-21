@@ -18,7 +18,7 @@ public class ConexionBaseDatos {
     private static String url = "jdbc:oracle:thin:@localhost:1521/XEPDB1";
     private static String user = "HR";
     private static String pass = "HR";
-    private static volatile BasicDataSource pool;
+    private static BasicDataSource pool;
 
     private ConexionBaseDatos(){
         //Constructor privado
@@ -26,14 +26,18 @@ public class ConexionBaseDatos {
 
     public static BasicDataSource getInstance() throws SQLException {
         if (pool == null) {
-            pool = new BasicDataSource();
-            pool.setUrl(url);
-            pool.setUsername(user);
-            pool.setPassword(pass);
-            pool.setInitialSize(3); // Conexiones minimas
-            pool.setMinIdle(3); // Conexiones minimas que no se están usando
-            pool.setMaxIdle(8); // Conexiones máximas que no se están usando
-            pool.setMaxTotal(8); // conexiones máximas totales
+            synchronized (ConexionBaseDatos.class) {
+                if (pool == null) {
+                    pool = new BasicDataSource();
+                    pool.setUrl(url);
+                    pool.setUsername(user);
+                    pool.setPassword(pass);
+                    pool.setInitialSize(3); // Conexiones minimas
+                    pool.setMinIdle(3); // Conexiones minimas que no se están usando
+                    pool.setMaxIdle(8); // Conexiones máximas que no se están usando
+                    pool.setMaxTotal(8); // conexiones máximas totales
+                }
+            }
         }
         return pool;
     }
