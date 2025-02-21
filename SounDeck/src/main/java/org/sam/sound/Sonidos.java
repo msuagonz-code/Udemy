@@ -1,5 +1,8 @@
 package org.sam.sound;
 
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+
 public enum Sonidos {
 
     FART,
@@ -15,17 +18,15 @@ public enum Sonidos {
     HEHE,
     OH_MY_GOD;
 
-    private String direccion = "C:\\Java\\SounDeck\\src\\main\\resources\\";
-
-    public String getDireccion() {
-        return direccion;
+    public String direccionCompleta() {
+        try {
+            return Paths.get(getClass().getClassLoader().getResource(this + ".mp3").toURI()).toString();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public String direccionCompleta(){
-        return this.getDireccion() + this + ".mp3";
-    }
-
-    // Método estático para recuperar el enum a partir del path
+    // Metodo estático para recuperar el enum a partir del path
     public static Sonidos getByNombre(String nombre) {
         for (Sonidos sound : Sonidos.values()) {
             if (sound.toString().equals(nombre)) {
