@@ -15,6 +15,8 @@ public class Main extends JFrame implements ActionListener {
 
     public Main() throws HeadlessException {
         super("Sound Deck");
+        this.player = new AudioPlayer();
+
         Container contenedor = getContentPane();
         contenedor.setLayout(new BorderLayout(5,5));
         JPanel panelCenter = new JPanel( new GridLayout(4, 3, 5, 5));
@@ -25,8 +27,6 @@ public class Main extends JFrame implements ActionListener {
             panelCenter.add(boton);
             boton.addActionListener(this);
         }
-
-        this.player = new AudioPlayer();
 
         setSize(400, 200);
         setVisible(true);
