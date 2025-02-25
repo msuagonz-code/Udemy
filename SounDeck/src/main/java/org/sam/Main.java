@@ -26,6 +26,7 @@ public class Main extends JFrame implements ActionListener {
             JButton boton = new JButton(sonido.toString());
             panelCenter.add(boton);
             boton.addActionListener(this);
+
         }
 
         setSize(400, 200);
