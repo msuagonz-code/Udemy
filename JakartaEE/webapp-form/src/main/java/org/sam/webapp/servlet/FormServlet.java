@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/registro")
 public class FormServlet extends HttpServlet {
@@ -32,37 +30,37 @@ public class FormServlet extends HttpServlet {
         Boolean habilitar = req.getParameter("habilitar") != null && req.getParameter("habilitar").equals("on");
         String secreto = req.getParameter("secreto");
 
-        List<String> errores = new ArrayList<>();
+        Map<String, String> errores = new HashMap<>();
 
         if( username == null || username.isBlank()){
-            errores.add("El Username es requerido");
+            errores.put("username", "El Username es requerido");
         }
 
         if( password == null || password.isBlank()){
-            errores.add("El Password es requerido");
+            errores.put("password","El Password es requerido");
         }
 
         if( email == null || email.isBlank() || !email.contains("@")){
-            errores.add("El E-mail es requerido y debe ser valido");
+            errores.put("email", "El E-mail es requerido y debe ser valido");
         }
 
         // esta validación
         // pais.equals("") || pais.equals(" ")
         // es equivalente a .isBlank()
         if( pais == null || pais.equals("") || pais.equals(" ")){
-            errores.add("El País es requerido");
+            errores.put("pais", "El País es requerido");
         }
 
         if( lenguajes == null || lenguajes.length == 0){
-            errores.add("Debe seleccionar al menos un lenguaje");
+            errores.put("lenguajes", "Debe seleccionar al menos un lenguaje");
         }
 
         if( roles == null || roles.length == 0){
-            errores.add("Debe seleccionar al menos un rol");
+            errores.put("roles", "Debe seleccionar al menos un rol");
         }
 
         if( idioma == null ){
-            errores.add("El Idioma es requerido");
+            errores.put("idioma", "El Idioma es requerido");
         }
 
         if(errores.isEmpty()){
