@@ -18,14 +18,32 @@ public class ParametrosGetServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
 
         String saludo = req.getParameter("saludo");
+        String nombre = req.getParameter("nombre");
+
         out.println("<!DOCTYPE html>");
         out.println("<html lang=<\"en\">");
         out.println("<head>");
         out.println("     <meta charset=<\"UTF-8\">");
-        out.println("     <title>Hola mundo url-get</title>");
+        out.println("     <title>Parametros GET de la URL</title>");
         out.println("</head>");
         out.println("     <body>");
-        out.println("         <h1>Hola "+ saludo +"</h1>");
+        out.println("         <h1>Parametros GET de la URL</h1>");
+        if(saludo != null && nombre != null) {
+            out.println("         <h2>"+ saludo +" "+ nombre +"</h2>");
+        } else if (saludo != null) {
+            out.println("         <h2>"+ saludo +"</h2>");
+        }else if (nombre != null) {
+            out.println("         <h2>Hola mi nombre es: "+ nombre +"</h2>");
+        }else{
+            out.println("         <h2>No se pasaron los parametros requeridos</h2>");
+        }
+
+        try {
+            Integer codigo = Integer.valueOf(req.getParameter("codigo"));
+            out.println("         <h3>Codigo enviado: " + codigo + "</h3>");
+        }catch (NumberFormatException e){
+            out.println("         <h3>No se ha enviado el codigo</h3>");
+        }
         out.println("     </body>");
         out.println("</html>");
         out.close();
