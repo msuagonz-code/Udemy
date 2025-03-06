@@ -13,30 +13,35 @@ Carro carro = (Carro) session.getAttribute("carro");
   <% if(carro == null || carro.getItems().isEmpty()) {%>
   <p>Lo sentimos no hay productos en el carro de compras!</p>
   <% } else {%>
-  <table>
-  <tr>
-    <th>Id</th>
-    <th>Nombre</th>
-    <th>Tipo</th>
-    <th>Precio</th>
-    <th>Cantidad</th>
-    <th>Total</th>
-  </tr>
-  <%for(ItemCarro item: carro.getItems()){%>
-  <tr>
-    <td><%=item.getProducto().getId()%></td>
-    <td><%=item.getProducto().getNombre()%></td>
-    <td><%=item.getProducto().getTipo()%></td>
-    <td><%=item.getProducto().getPrecio()%></td>
-    <td><%=item.getCantidad()%></td>
-    <td><%=item.getImporte()%></td>
-  </tr>
-  <%}%>
-  <tr>
-  <td colspan="5" style="text-align:right">Total:</td>
-  <td style="text-align:right"><%=carro.getTotal()%></td>
-  </tr>
-  </table>
+    <form name="formcarro" action="<%=request.getContextPath()%>/actualizar-carro" method="post">
+          <table>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>borrar</th>
+          </tr>
+          <%for(ItemCarro item: carro.getItems()){%>
+          <tr>
+            <td><%=item.getProducto().getId()%></td>
+            <td><%=item.getProducto().getNombre()%></td>
+            <td><%=item.getProducto().getTipo()%></td>
+            <td><%=item.getProducto().getPrecio()%></td>
+            <td><input type="text" size="4" name="cant_<%=item.getProducto().getId()%>" value="<%=item.getCantidad()%>" /></td>
+            <td><%=item.getImporte()%></td>
+            <td><input type="checkbox" value="<%=item.getProducto().getId()%>" name="deleteProductos" /></td>
+          </tr>
+          <%}%>
+          <tr>
+          <td colspan="5" style="text-align:right">Total:</td>
+          <td style="text-align:right"><%=carro.getTotal()%></td>
+          </tr>
+          </table>
+      <a href="javascript:document.formcarro.submit();">Actualizar</a>
+    </form>
   <% }%>
   <p><a href="<%=request.getContextPath()%>/productos">Seguir comprando</a></p>
   <p><a href="<%=request.getContextPath()%>/index.html">Vovler</a></p>
