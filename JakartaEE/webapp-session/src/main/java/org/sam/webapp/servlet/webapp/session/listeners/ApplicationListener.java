@@ -16,7 +16,7 @@ public class ApplicationListener implements ServletContextListener, ServletReque
     public void contextInitialized(ServletContextEvent sce) {
         servletContext = sce.getServletContext();
         servletContext.log("Inicializando la aplicación!");
-        servletContext.setAttribute("mensaje", "Valor para el context");
+        servletContext.setAttribute("mensaje", "Inicializando la Aplicación!");
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ApplicationListener implements ServletContextListener, ServletReque
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         servletContext.log("Inicializando el Request!");
-        sre.getServletRequest().setAttribute("mensaje", "Valor para el request");
+        sre.getServletRequest().setAttribute("mensaje", "Inicializando el Request!");
     }
 
     @Override

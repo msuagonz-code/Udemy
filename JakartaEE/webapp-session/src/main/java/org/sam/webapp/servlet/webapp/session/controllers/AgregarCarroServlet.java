@@ -10,17 +10,19 @@ import org.sam.webapp.servlet.webapp.session.models.Carro;
 import org.sam.webapp.servlet.webapp.session.models.ItemCarro;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
 import org.sam.webapp.servlet.webapp.session.services.ProductoService;
-import org.sam.webapp.servlet.webapp.session.services.impl.ProductoServiceImpl;
+import org.sam.webapp.servlet.webapp.session.services.impl.ProductoServiceJdbcImpl;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Optional;
 
-@WebServlet("/agregar-carro")
+@WebServlet("/carro/agregar")
 public class AgregarCarroServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));
-        ProductoService productoService = new ProductoServiceImpl();
+        Connection connection = (Connection) req.getAttribute("connection");
+        ProductoService productoService = new ProductoServiceJdbcImpl(connection);
         Optional<Producto> producto = productoService.findById(id);
 
         if(producto.isPresent()){
@@ -29,6 +31,6 @@ public class AgregarCarroServlet extends HttpServlet {
             Carro carro = (Carro) session.getAttribute("carro");
             carro.addItem(item);
         }
-        resp.sendRedirect(req.getContextPath() + "/ver-carro");
+        resp.sendRedirect(req.getContextPath() + "/carro/ver");
     }
 }

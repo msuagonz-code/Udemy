@@ -1,10 +1,14 @@
 package org.sam.webapp.servlet.webapp.session.models;
 
+import java.time.LocalDate;
+
 public class Producto {
     private Long id;
     private String nombre;
-    private String tipo;
+    private Categoria categoria;
     private int precio;
+    private String sku;
+    private LocalDate fechaRegistro;
 
     public Producto() {
     }
@@ -12,8 +16,11 @@ public class Producto {
     public Producto(Long id, String nombre, String tipo, int precio ) {
         this.id = id;
         this.precio = precio;
-        this.tipo = tipo;
         this.nombre = nombre;
+
+        Categoria categoria = new Categoria();
+        categoria.setName(tipo);
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -32,19 +39,35 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public int getPrecio() {
         return precio;
     }
 
     public void setPrecio(int precio) {
         this.precio = precio;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 }
