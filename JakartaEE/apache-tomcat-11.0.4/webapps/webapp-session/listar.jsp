@@ -1,45 +1,38 @@
-<%@page contentType="UTF-8" import="java.util.*, org.sam.webapp.servlet.webapp.session.models.*" %>
-<%
-List<Producto> productos = (List<Producto>) request.getAttribute("productos");
-Optional<String> username = (Optional<String>) request.getAttribute("username");
-String mensaje = (String) request.getAttribute("mensaje");
-String mensajeApp = (String) getServletContext().getAttribute("mensaje");
-%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Listado de productos</title>
-</head>
-<body>
-    <h1>Listado de productos</h1>
-    <%if(username.isPresent()){%>
-        <div>Hola <%=username.get()%>, Bienvenido</div>
-        <p><a href="<%=request.getContextPath()%>/productos/form">Crear [+]</a></p>
-    <%}%>
-    <table>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="jakarta.tags.core" prefix="c" %>
+<jsp:include page="layout/header.jsp" />
+    <h3>${title}</h3>
+    <c:if test="${username.present}">
+        <div class="alert alert-info">Hola ${username.get()}, Bienvenido</div>
+        <a class="btn btn-primary mb-2" href="${pageContext.request.contextPath}/productos/form">Crear [+]</a>
+    </c:if>
+    <table class="table table-hover table-striped">
         <tr>
             <th>Id</th>
             <th>Nombre</th>
             <th>Tipo</th>
-            <%if(username.isPresent()){%>
+            <c:if test="${username.present}">
             <th>Precio</th>
             <th>Agregar</th>
-            <%}%>
+            <th>Editar</th>
+            <th>Eliminar</th>
+            </c:if>
         </tr>
-        <% for(Producto p: productos){%>
+        <c:forEach items="${productos}" var="p">
         <tr>
-            <td><%=p.getId()%></td>
-            <td><%=p.getNombre()%></td>
-            <td><%=p.getCategoria().getName()%></td>
-            <%if(username.isPresent()){%>
-            <td><%=p.getPrecio()%></td>
-            <td><a href="<%=request.getContextPath()%>/carro/agregar?id=<%=p.getId()%>">Agregar al carro</a></td>
-            <%}%>
+            <td>${p.id}</td>
+            <td>${p.nombre}</td>
+            <td>${p.categoria.name}</td>
+            <c:if test="${username.present}">
+            <td>${p.precio}</td>
+            <td><a class="btn btn-sm btn-primary" href="${pageContext.request.contextPath}/carro/agregar?id=${p.id}">Agregar al carro</a></td>
+            <td><a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/productos/form?id=${p.id}">Editar</a></td>
+            <td><a class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro que desea eliminar?');"
+             href="${pageContext.request.contextPath}/productos/eliminar?id=${p.id}">Eliminar</a></td>
+            </c:if>
         </tr>
-        <%}%>
+        </c:forEach>
     </table>
-    <p><%=mensaje%></p>
-    <p><%=mensajeApp%></p>
-</body>
-</html>
+    <p>${requestScope.mensaje}</p>
+    <p>${applicationScope.mensaje}</p>
+<jsp:include page="layout/footer.jsp" />

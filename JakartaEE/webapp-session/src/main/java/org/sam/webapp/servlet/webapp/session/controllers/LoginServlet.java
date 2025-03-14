@@ -3,19 +3,20 @@ package org.sam.webapp.servlet.webapp.session.controllers;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.sam.webapp.servlet.webapp.session.models.Usuario;
 import org.sam.webapp.servlet.webapp.session.services.LoginService;
+import org.sam.webapp.servlet.webapp.session.services.UsuarioService;
 import org.sam.webapp.servlet.webapp.session.services.impl.LoginServiceCookieImpl;
 import org.sam.webapp.servlet.webapp.session.services.impl.LoginServiceSessionImpl;
+import org.sam.webapp.servlet.webapp.session.services.impl.UsuarioServiceImpl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.Optional;
 
 @WebServlet({"/login", "/login.html"})
 public class LoginServlet extends HttpServlet {
-
-    final static String USERNAME = "admin";
-    final static String PASSWORD = "12345";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,13 +35,15 @@ public class LoginServlet extends HttpServlet {
                 out.println("</head>");
                 out.println("     <body>");
                 out.println("         <h1>Hola "+usernameOptional.get()+" has iniciado sesión con éxito!</h1>");
-                out.println("         <p><a href='"+req.getContextPath()+"/index.html'>Volver</a></p>");
+                out.println("         <p><a href='"+req.getContextPath()+"/index.jsp'>Volver</a></p>");
                 out.println("         <p><a href='"+req.getContextPath()+"/logout'>Cerrar Sesion</a></p>");
                 out.println("     </body>");
                 out.println("</html>");
             }
+        } else {
+            req.setAttribute("title", req.getAttribute("title") + ": Login");
+            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
         }
-        getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 
     @Override
@@ -48,10 +51,15 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if(USERNAME.equals(username) && PASSWORD.equals(password)){
+        UsuarioService service = new UsuarioServiceImpl((Connection) req.getAttribute("connection"));
+        Optional<Usuario> usuarioOptional = service.login(username, password);
+
+        if(usuarioOptional.isPresent()){
 
             HttpSession session = req.getSession();
             session.setAttribute("username", username);
+            session.setAttribute("userId", usuarioOptional.get().getId());
+            session.setAttribute("isAdmin", usuarioOptional.get().getUsername().equals("admin"));
             resp.sendRedirect(req.getContextPath() +"/login.html");
 
         }else {

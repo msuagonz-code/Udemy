@@ -28,6 +28,7 @@ public class ApplicationListener implements ServletContextListener, ServletReque
     public void requestInitialized(ServletRequestEvent sre) {
         servletContext.log("Inicializando el Request!");
         sre.getServletRequest().setAttribute("mensaje", "Inicializando el Request!");
+        sre.getServletRequest().setAttribute("title", "Catálogo Servlet");
     }
 
     @Override
@@ -41,6 +42,7 @@ public class ApplicationListener implements ServletContextListener, ServletReque
         Carro carro = new Carro();
         HttpSession session = se.getSession();
         session.setAttribute("carro", carro);
+        session.setAttribute("isAdmin", false);
     }
 
     @Override

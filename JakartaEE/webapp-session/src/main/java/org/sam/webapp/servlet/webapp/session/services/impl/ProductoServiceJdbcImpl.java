@@ -46,7 +46,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
         try {
             productoRepository.update(producto);
         } catch (SQLException e) {
-            throw new ServiceJDBCException(e.getMessage(), e.getCause());
+            throw new ServiceJDBCException(e.getMessage(), e);
         }
     }
 

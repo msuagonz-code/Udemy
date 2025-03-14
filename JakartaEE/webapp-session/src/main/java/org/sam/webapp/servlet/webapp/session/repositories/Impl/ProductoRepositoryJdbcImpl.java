@@ -5,11 +5,18 @@ import org.sam.webapp.servlet.webapp.session.models.Producto;
 import org.sam.webapp.servlet.webapp.session.repositories.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
+
+    private static final Logger logger = Logger.getLogger(ProductoRepositoryJdbcImpl.class.getName());
 
     private Connection conn;
 
@@ -30,7 +37,7 @@ public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
                     "    P.DATE_REGISTRY, " +
                     "    C.ID AS ID_TIPO, " +
                     "    C.NAME AS TIPO " +
-                    " FROM PRODUCTS P JOIN CATEGORY C ON C.ID = P.CATEGORY_ID ")){
+                    " FROM PRODUCTS P JOIN CATEGORY C ON C.ID = P.CATEGORY_ID ORDER BY P.ID ASC")){
 
             while(resultSet.next()){
                 Producto producto = getProductoFromResulset(resultSet);
@@ -72,21 +79,21 @@ public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
     public Producto getLastId() throws SQLException {
         Producto producto = null;
         // Obtenemos el ultimo registro
-        try(PreparedStatement statement = conn.prepareStatement("SELECT * " +
+        try(PreparedStatement statement = conn.prepareStatement("SELECT ID " +
                 " FROM ( " +
-                "    SELECT * " +
+                "    SELECT ID " +
                 "    FROM PRODUCTS " +
-                "    ORDER BY id DESC " +
+                "    ORDER BY ID DESC " +
                 " ) " +
                 " WHERE ROWNUM = 1")){
 
             try(ResultSet resultSet = statement.executeQuery()){
                 if(resultSet.next()){
-                    producto = getProductoFromResulset(resultSet);
+                    producto = new Producto();
+                    producto.setId(resultSet.getLong("ID"));
                 }
             }
         }
-
         return producto;
     }
 
@@ -95,37 +102,41 @@ public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
 
         Producto lastProduct = null;
         String sql;
+
+        String mensaje = " producto.getId() "+ producto.getId();
+        mensaje += "\r\n producto.getId() != null && producto.getId() > 0"+ (producto.getId() != null && producto.getId() > 0);
+        logger.log(Level.INFO, mensaje);
+
         if(producto.getId() != null && producto.getId() > 0){
-            sql = "UPDATE PRODUCTS NAME = ?, PRICE = ?, SKU = ?, CATEGORY_ID = ?  SET WHERE ID = ?";
+            sql = "UPDATE PRODUCTS SET NAME = ?, PRICE = ?, SKU = ?, CATEGORY_ID = ? WHERE ID = ?";
         }else{
             lastProduct = getLastId();
-            sql = "INSER INTO PRODUCTS (NAME, PRICE, SKU, CATEGORY_ID, ID, DATE_REGISTRY) VALUES (?,?,?,?,?,?)";
+            sql = "INSERT INTO PRODUCTS (NAME, PRICE, SKU, CATEGORY_ID, ID, DATE_REGISTRY) VALUES (?,?,?,?,?,?)";
         }
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1,  producto.getNombre());
-            stmt.setLong(2,  producto.getPrecio());
-            stmt.setString(3, producto.getSku()  );
+            stmt.setInt(2,  producto.getPrecio());
+            stmt.setString(3, producto.getSku());
             stmt.setLong (4,  producto.getCategoria().getId());
-            stmt.setLong(5, Objects.requireNonNullElse(lastProduct, producto).getId());
 
-            /*
-             * Esta sentencia es equivalente a esto:
-             *
-             *   if(lastProduct == null) {
-             *       stmt.setLong(5, producto.getId());
-             *   }else{
-             *       stmt.setLong(5, lastProduct.getId());
-             *   }
-             *
-            */
             if(lastProduct == null) {
-                stmt.setDate(6, Date.valueOf(producto.getFechaRegistro()));
+                // Update
+                stmt.setLong(5, producto.getId());
+            }else{
+                // Insert, se suma 1 al ultimo id
+                stmt.setLong(5, lastProduct.getId() + 1);
             }
 
+            if(lastProduct != null) {
+                // Definir una hora específica (por ejemplo, medianoche)
+                LocalTime localTime = LocalTime.MIDNIGHT;
+                LocalDateTime localDateTime = producto.getFechaRegistro().atTime(localTime);
+                Timestamp timestamp = Timestamp.valueOf(localDateTime);
+                stmt.setTimestamp(6, timestamp);
+            }
             stmt.executeUpdate();
         }
-
     }
 
     @Override
