@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.sam.webapp.servlet.webapp.session.services.ServiceJDBCException;
 import org.sam.webapp.servlet.webapp.session.utils.BasicDataSourceProvider;
 import org.sam.webapp.servlet.webapp.session.utils.ConexionDB;
+import org.sam.webapp.servlet.webapp.session.utils.ConexionDBDS;
 import org.sam.webapp.servlet.webapp.session.utils.DataSourceProvider;
 
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +21,8 @@ public class ConexionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         DataSourceProvider provider = new BasicDataSourceProvider();
-        ConexionDB pool = new ConexionDB(provider);
+        //ConexionDB pool = new ConexionDB(provider);
+        ConexionDBDS pool = new ConexionDBDS();
 
         try(Connection connection = pool.getConnection()) {
             if(connection.getAutoCommit()){
@@ -35,7 +38,7 @@ public class ConexionFilter implements Filter {
                 e.printStackTrace();
             }
             connection.commit();
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             throw new RuntimeException(e);
         }
     }
