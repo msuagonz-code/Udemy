@@ -1,27 +1,40 @@
 package org.sam.webapp.servlet.webapp.session.repositories.Impl;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
+import org.sam.webapp.servlet.webapp.session.configs.OracleConn;
+import org.sam.webapp.servlet.webapp.session.configs.Repository;
 import org.sam.webapp.servlet.webapp.session.models.Categoria;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
-import org.sam.webapp.servlet.webapp.session.repositories.Repository;
+import org.sam.webapp.servlet.webapp.session.repositories.CrudRepository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
+@Repository
+public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
 
-    private static final Logger logger = Logger.getLogger(ProductoRepositoryJdbcImpl.class.getName());
+    @Inject
+    private Logger log;
 
+    @Inject
+    @OracleConn
     private Connection conn;
 
-    public ProductoRepositoryJdbcImpl(Connection conn) {
-        this.conn = conn;
+    @PostConstruct
+    public void inicializar(){
+        log.info("Inicializando el beans: "+ this.getClass().getName());
+    }
+
+    @PreDestroy
+    public void destruir(){
+        log.info("Destruyendo el beans: "+ this.getClass().getName());
     }
 
     @Override
@@ -102,10 +115,6 @@ public class ProductoRepositoryJdbcImpl implements Repository<Producto> {
 
         Producto lastProduct = null;
         String sql;
-
-        String mensaje = " producto.getId() "+ producto.getId();
-        mensaje += "\r\n producto.getId() != null && producto.getId() > 0"+ (producto.getId() != null && producto.getId() > 0);
-        logger.log(Level.INFO, mensaje);
 
         if(producto.getId() != null && producto.getId() > 0){
             sql = "UPDATE PRODUCTS SET NAME = ?, PRICE = ?, SKU = ?, CATEGORY_ID = ? WHERE ID = ?";

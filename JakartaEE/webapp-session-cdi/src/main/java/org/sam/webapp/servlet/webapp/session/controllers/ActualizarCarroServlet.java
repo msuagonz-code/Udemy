@@ -22,11 +22,8 @@ public class ActualizarCarroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //HttpSession session = req.getSession();
-        //Carro carro = (Carro) session.getAttribute("carro");
-            updateProductos(req, carro);
-            updateCantidades(req, carro);
-
+        updateProductos(req, carro);
+        updateCantidades(req, carro);
         resp.sendRedirect(req.getContextPath() + "/carro/ver");
     }
 

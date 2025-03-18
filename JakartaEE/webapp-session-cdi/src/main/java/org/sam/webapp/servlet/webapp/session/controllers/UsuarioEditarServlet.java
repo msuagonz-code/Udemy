@@ -1,5 +1,6 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,10 +19,13 @@ import java.util.Optional;
 
 @WebServlet("/usuarios/edit")
 public class UsuarioEditarServlet extends HttpServlet {
+
+    @Inject
+    private UsuarioService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        UsuarioService service = new UsuarioServiceImpl(connection);
+
         req.setAttribute("action", "usuarios/edit");
         long id;
         try{
@@ -46,8 +50,6 @@ public class UsuarioEditarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        UsuarioService service = new UsuarioServiceImpl(connection);
 
         HttpSession session = req.getSession();
 

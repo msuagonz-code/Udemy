@@ -20,7 +20,7 @@ public class TiempoTranscurridoFilter implements Filter {
         long resultado = fin - inicio;
 
         // imprimimos en el logs o imprimir directamente en consola con System.out.println
-        logger.info(String.format("El tiempo de carga de la página es de %s milisegundos", resultado));
+        //logger.info(String.format("El tiempo de carga de la página es de %s milisegundos", resultado));
 
     }
 }

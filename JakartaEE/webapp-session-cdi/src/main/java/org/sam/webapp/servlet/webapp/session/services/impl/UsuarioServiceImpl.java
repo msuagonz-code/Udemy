@@ -1,5 +1,8 @@
 package org.sam.webapp.servlet.webapp.session.services.impl;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import org.sam.webapp.servlet.webapp.session.configs.Service;
 import org.sam.webapp.servlet.webapp.session.models.Usuario;
 import org.sam.webapp.servlet.webapp.session.repositories.Impl.UsuarioRepositoryImpl;
 import org.sam.webapp.servlet.webapp.session.repositories.UsuarioRepository;
@@ -11,12 +14,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UsuarioServiceImpl implements UsuarioService {
 
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioServiceImpl(Connection connection) {
-        this.usuarioRepository = new UsuarioRepositoryImpl(connection);
+    @Inject
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override

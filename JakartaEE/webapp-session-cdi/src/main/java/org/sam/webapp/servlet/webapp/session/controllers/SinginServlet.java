@@ -1,5 +1,6 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,16 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.sam.webapp.servlet.webapp.session.models.Usuario;
 import org.sam.webapp.servlet.webapp.session.services.UsuarioService;
-import org.sam.webapp.servlet.webapp.session.services.impl.UsuarioServiceImpl;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @WebServlet("/sing-in")
 public class SinginServlet extends HttpServlet {
+
+    @Inject
+    private UsuarioService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("title", req.getAttribute("title") + ": Sing In");
@@ -27,8 +30,6 @@ public class SinginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        UsuarioService service = new UsuarioServiceImpl(connection);
         req.setAttribute("action", "usuarios/sing-in");
 
         HttpSession session = req.getSession();
@@ -62,7 +63,7 @@ public class SinginServlet extends HttpServlet {
             Optional<Usuario> usuarioDB = service.findByUsername(username);
             Optional<Usuario> login = Optional.empty();
 
-            if(!usuarioDB.isPresent()) {
+            if(usuarioDB.isEmpty()) {
                 service.update(user);
                 usuarioDB = service.findByUsername(username);
                 login = service.login(usuarioDB.get().getUsername(), password);

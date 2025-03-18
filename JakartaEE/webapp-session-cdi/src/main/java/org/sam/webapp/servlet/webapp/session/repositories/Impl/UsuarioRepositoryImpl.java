@@ -1,21 +1,21 @@
 package org.sam.webapp.servlet.webapp.session.repositories.Impl;
 
-import org.sam.webapp.servlet.webapp.session.models.Producto;
+import jakarta.inject.Inject;
+import org.sam.webapp.servlet.webapp.session.configs.OracleConn;
+import org.sam.webapp.servlet.webapp.session.configs.Repository;
 import org.sam.webapp.servlet.webapp.session.models.Usuario;
 import org.sam.webapp.servlet.webapp.session.repositories.UsuarioRepository;
-import org.sam.webapp.servlet.webapp.session.services.ServiceJDBCException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class UsuarioRepositoryImpl implements UsuarioRepository {
 
+    @Inject
+    @OracleConn
     private Connection conn;
-
-    public UsuarioRepositoryImpl(Connection conn) {
-        this.conn = conn;
-    }
 
     private static Usuario getUsuarioFromResulset(ResultSet resultSet) throws SQLException {
         Usuario usuario;

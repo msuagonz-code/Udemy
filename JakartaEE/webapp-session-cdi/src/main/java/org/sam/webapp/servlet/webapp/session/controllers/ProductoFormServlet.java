@@ -1,30 +1,32 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.sam.webapp.servlet.webapp.session.configs.ProductoServicePrincipal;
 import org.sam.webapp.servlet.webapp.session.models.Categoria;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
 import org.sam.webapp.servlet.webapp.session.services.ProductoService;
-import org.sam.webapp.servlet.webapp.session.services.impl.ProductoServiceJdbcImpl;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @WebServlet("/productos/form")
 public class ProductoFormServlet extends HttpServlet {
+
+    @Inject
+    @ProductoServicePrincipal
+    private ProductoService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        ProductoService service = new ProductoServiceJdbcImpl(connection);
 
         Long id;
         try {
@@ -51,8 +53,6 @@ public class ProductoFormServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        ProductoService service = new ProductoServiceJdbcImpl(connection);
 
         String name = req.getParameter("name");
 

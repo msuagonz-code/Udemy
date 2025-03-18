@@ -1,27 +1,27 @@
 package org.sam.webapp.servlet.webapp.session.services.impl;
 
+import jakarta.inject.Inject;
+import org.sam.webapp.servlet.webapp.session.configs.ProductoServicePrincipal;
+import org.sam.webapp.servlet.webapp.session.configs.Service;
 import org.sam.webapp.servlet.webapp.session.models.Categoria;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
-import org.sam.webapp.servlet.webapp.session.repositories.Impl.CategoriaRepositorioImpl;
-import org.sam.webapp.servlet.webapp.session.repositories.Impl.ProductoRepositoryJdbcImpl;
-import org.sam.webapp.servlet.webapp.session.repositories.Repository;
+import org.sam.webapp.servlet.webapp.session.repositories.CrudRepository;
 import org.sam.webapp.servlet.webapp.session.services.ProductoService;
 import org.sam.webapp.servlet.webapp.session.services.ServiceJDBCException;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@ProductoServicePrincipal
 public class ProductoServiceJdbcImpl implements ProductoService {
 
-    private Repository<Producto> productoRepository;
-    private Repository<Categoria> categoriaRepository;
+    @Inject
+    private CrudRepository<Producto> productoRepository;
 
-    public ProductoServiceJdbcImpl(Connection connection) {
-        this.productoRepository = new ProductoRepositoryJdbcImpl(connection);
-        this.categoriaRepository = new CategoriaRepositorioImpl(connection);
-    }
+    @Inject
+    private CrudRepository<Categoria> categoriaRepository;
 
     @Override
     public List<Producto> getAll() {

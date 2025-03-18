@@ -1,17 +1,22 @@
 package org.sam.webapp.servlet.webapp.session.repositories.Impl;
 
+import jakarta.inject.Inject;
+import org.sam.webapp.servlet.webapp.session.configs.OracleConn;
+import org.sam.webapp.servlet.webapp.session.configs.Repository;
 import org.sam.webapp.servlet.webapp.session.models.Categoria;
-import org.sam.webapp.servlet.webapp.session.repositories.Repository;
+import org.sam.webapp.servlet.webapp.session.repositories.CrudRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaRepositorioImpl implements Repository<Categoria> {
+@Repository
+public class CategoriaRepositorioImpl implements CrudRepository<Categoria> {
 
     private Connection conn;
 
-    public CategoriaRepositorioImpl(Connection conn) {
+     @Inject
+    public CategoriaRepositorioImpl(@OracleConn Connection conn) {
         this.conn = conn;
     }
 

@@ -1,24 +1,27 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.sam.webapp.servlet.webapp.session.configs.ProductoServicePrincipal;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
 import org.sam.webapp.servlet.webapp.session.services.ProductoService;
-import org.sam.webapp.servlet.webapp.session.services.impl.ProductoServiceJdbcImpl;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Optional;
 
 @WebServlet("/productos/eliminar")
 public class ProductoEliminarServlet extends HttpServlet {
+
+    @Inject
+    @ProductoServicePrincipal
+    private ProductoService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        ProductoService service = new ProductoServiceJdbcImpl(connection);
 
         long id;
         try{

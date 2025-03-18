@@ -1,5 +1,6 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebListener;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,15 +21,19 @@ import java.util.Optional;
 
 @WebServlet("/usuarios/lista")
 public class UsuariosServlet extends HttpServlet {
+
+    @Inject
+    private UsuarioService service;
+
+    @Inject
+    private LoginService loginService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        UsuarioService usuarioService = new UsuarioServiceImpl(connection);
 
-        List<Usuario> usuarios = usuarioService.getAll();
+        List<Usuario> usuarios = service.getAll();
         usuarios.removeIf(usuario -> "admin".equals(usuario.getUsername()));
 
-        LoginService loginService = new LoginServiceSessionImpl();
         Optional<String> usernameOptional = loginService.getUsername(req);
 
         HttpSession session = req.getSession();

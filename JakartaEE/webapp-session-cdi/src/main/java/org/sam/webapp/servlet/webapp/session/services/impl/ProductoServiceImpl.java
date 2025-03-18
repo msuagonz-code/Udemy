@@ -1,14 +1,15 @@
 package org.sam.webapp.servlet.webapp.session.services.impl;
 
+import jakarta.enterprise.inject.Alternative;
 import org.sam.webapp.servlet.webapp.session.models.Categoria;
 import org.sam.webapp.servlet.webapp.session.models.Producto;
 import org.sam.webapp.servlet.webapp.session.services.ProductoService;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+// @Alternative
 public class ProductoServiceImpl implements ProductoService {
 
     @Override

@@ -1,5 +1,6 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -12,10 +13,13 @@ import java.util.Optional;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
+
+    @Inject
+    private LoginService loginService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        LoginService loginService = new LoginServiceSessionImpl();
         Optional<String> username = loginService.getUsername(req);
         if(username.isPresent()){
             HttpSession session = req.getSession();

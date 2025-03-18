@@ -1,5 +1,6 @@
 package org.sam.webapp.servlet.webapp.session.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,10 +17,12 @@ import java.util.Optional;
 
 @WebServlet("/usuarios/eliminar")
 public class UsuarioEliminarServlet extends HttpServlet {
+
+    @Inject
+    private UsuarioService service;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getAttribute("connection");
-        UsuarioService usuarioService = new UsuarioServiceImpl(connection);
 
         long id;
         try{
@@ -30,9 +33,9 @@ public class UsuarioEliminarServlet extends HttpServlet {
 
         // El id 1 corresponde al admin
         if(id > 1){
-            Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+            Optional<Usuario> usuarioOptional = service.findById(id);
             if(usuarioOptional.isPresent()){
-                usuarioService.delete(id);
+                service.delete(id);
                 resp.sendRedirect(req.getContextPath() + "/usuarios/lista");
             }else{
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No existe el usuario en la Base de datos");
