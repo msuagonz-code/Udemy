@@ -2,6 +2,8 @@ package org.sam.hibernateapp.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="Clientes")
 public class Cliente {
@@ -15,6 +17,10 @@ public class Cliente {
 
     @Column(name="FORMA_PAGO")
     private String formaPago;
+
+    @Embedded
+    private Auditoria auditoria = new Auditoria();
+
 
     public Cliente() {
     }
@@ -65,9 +71,14 @@ public class Cliente {
 
     @Override
     public String toString() {
+        LocalDateTime creado = this.auditoria != null ? auditoria.getCreadoEn(): null;
+        LocalDateTime editado = this.auditoria != null ? auditoria.getEditadoEn(): null;
+
         return "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
-                ", formaPago='" + formaPago + '\'';
+                ", formaPago='" + formaPago + '\''+
+                ", creadoEn='" + creado + '\''+
+                ", editadoEn='" + editado + '\'';
     }
 }
