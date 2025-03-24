@@ -1,0 +1,11 @@
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('1','Andres','Guzman','Debito',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('2','John','Doe','Credito',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('3','Stefany','Vaca','Paypal',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('4','Manuel','Suarez','Bitcoin',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('5','Luci','Martinez','Bitcoin',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('6','Luna','García','Debito',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('7','Andres','Suarez','Bitcoin',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('8','Pepa','Guzman','Debito',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('9','Lou','Loe','Credito',null,null);
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('10','Yuli','Vaca','Bitcoin',STR_TO_DATE('22/03/25','%d/%m/%y'),STR_TO_DATE('22/03/25','%d/%m/%y'));
+Insert into java_hibernate_curso.CLIENTES (ID,NOMBRE,APELLIDO,FORMA_PAGO,CREADO_EN,EDITADO_EN) values ('11','Anacleto','Stopa','Credito',STR_TO_DATE('22/03/25','%d/%m/%y'),STR_TO_DATE('22/03/25','%d/%m/%y'));
