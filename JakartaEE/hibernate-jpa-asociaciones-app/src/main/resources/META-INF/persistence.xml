@@ -4,6 +4,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.sam.hibernateapp.entity.Cliente</class>
         <class>org.sam.hibernateapp.entity.Factura</class>
+        <class>org.sam.hibernateapp.entity.Direccion</class>
+        <class>org.sam.hibernateapp.entity.ClienteDetalle</class>
+        <class>org.sam.hibernateapp.entity.Curso</class>
+        <class>org.sam.hibernateapp.entity.Alumno</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/java_hibernate_curso?serverTimezone=Europe/Madrid"/>

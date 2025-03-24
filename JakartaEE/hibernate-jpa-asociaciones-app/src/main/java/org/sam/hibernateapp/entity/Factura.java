@@ -2,6 +2,8 @@ package org.sam.hibernateapp.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name="facturas")
 public class Factura {
@@ -12,7 +14,7 @@ public class Factura {
     private String descripcion;
     private Long total;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
@@ -61,7 +63,15 @@ public class Factura {
         return "{" + "id=" + id +
                 ", descripcion='" + descripcion + '\'' +
                 ", total=" + total +
-                ", cliente=" + cliente + '\''+
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Factura factura = (Factura) o;
+        return Objects.equals(id, factura.id) && Objects.equals(descripcion, factura.descripcion) && Objects.equals(total, factura.total);
+    }
+
 }
