@@ -9,38 +9,38 @@
         <f:viewParam name="id" value="#{productoController.id}"/>
     </f:metadata>
     <h:panelGrid border="1" class="table">
-        <f:facet name="header"><h:outputText value="Formulario #{producto.id > 0 ? 'Editar' : 'Crear'} Producto"/></f:facet>
-        <h:link outcome="/index" value="volver" class="btn btn-sm btn-primary my-2"/>
+        <f:facet name="header"><h:outputText value="#{msg['producto.formulario']} #{producto.id > 0 ? msg['producto.boton.editar'] : msg['producto.boton.crear']}"/></f:facet>
+        <h:link outcome="/index" value="#{msg['producto.boton.volver']}" class="btn btn-sm btn-primary my-2"/>
         <h:form>
             <h:panelGrid columns="3" class="table table-hover table-striped">
-                <h:outputLabel value="Nombre" for="nombre" class="col-form-label"/>
+                <h:outputLabel value="#{msg['producto.nombre']}" for="nombre" class="col-form-label"/>
                 <h:inputText id="nombre" value="#{producto.nombre}" label="Nombre" class="form-control"/>
                 <h:message for="nombre" style="color:#df6882"/>
 
-                <h:outputLabel value="Precio" for="precio" class="col-form-label"/>
+                <h:outputLabel value="#{msg['producto.precio']}" for="precio" class="col-form-label"/>
                 <h:inputText id="precio" value="#{producto.precio}" label="Precio" class="form-control"/>
                 <h:message for="precio" style="color:#df6882"/>
 
-                <h:outputLabel value="SKU" for="sku" class="col-form-label"/>
+                <h:outputLabel value="#{msg['producto.sku']}" for="sku" class="col-form-label"/>
                 <h:inputText id="sku" value="#{producto.sku}" label="SKU" class="form-control"/>
                 <h:message for="sku" style="color:#df6882"/>
 
-                <h:outputLabel value="Fecha" for="fechaRegistro" class="col-form-label"/>
+                <h:outputLabel value="#{msg['producto.fechaRegistro']}" for="fechaRegistro" class="col-form-label"/>
                 <h:inputText id="fechaRegistro" value="#{producto.fechaRegistro}" label="Fecha registro"  convertMessage="Indique la fecha con yyyy-MM-dd" class="form-control">
                     <f:convertDateTime type="localDate" pattern="yyyy-MM-dd"/>
                     <f:passThroughAttribute name="type" value="date"/>
                 </h:inputText>
                 <h:message for="fechaRegistro" style="color:#df6882"/>
 
-                <h:outputLabel value="Categoria" for="categoria" class="col-form-label"/>
+                <h:outputLabel value="#{msg['producto.categoria']}" for="categoria" class="col-form-label"/>
                 <h:selectOneMenu id="categoria" value="#{producto.categoria}" class="form-select">
-                    <f:selectItem itemLabel="---- Seleccione una categoria ----" itemValue="#{null}" />
+                    <f:selectItem itemLabel="---- #{msg['producto.select.categoria']} ----" itemValue="#{null}" />
                     <f:selectItems value="#{categorias}" var="cat" itemLabel="#{cat.nombre}"/>
                     <f:converter binding="#{categoriaConverter}" />
                 </h:selectOneMenu>
                 <h:message for="categoria" style="color:#df6882"/>
 
-                <h:commandButton value="#{producto.id > 0 ? 'Editar' : 'Crear'}" action="#{productoController.guardar}" class="btn btn-primary"/>
+                <h:commandButton value="#{producto.id > 0 ? msg['producto.boton.editar'] : msg['producto.boton.crear']}" action="#{productoController.guardar}" class="btn btn-primary"/>
                 <h:inputHidden value="#{producto.id}" />
                 <p>&#160;</p>
             </h:panelGrid>
