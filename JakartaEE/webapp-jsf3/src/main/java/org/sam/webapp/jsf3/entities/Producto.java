@@ -19,7 +19,6 @@ public class Producto {
 
     @NotNull
     @Min(5)
-    @Max(100000)
     private Integer precio;
 
     @NotEmpty
