@@ -47,8 +47,8 @@
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-plugin-tools</artifactId>
-                <version>1.1.0.Final</version>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>5.0.0.Final</version>
             </plugin>
             <plugin>
                 <artifactId>maven-ear-plugin</artifactId>
