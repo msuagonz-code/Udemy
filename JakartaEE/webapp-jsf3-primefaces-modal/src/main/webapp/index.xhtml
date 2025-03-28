@@ -10,8 +10,10 @@
         <h:outputText value="#{titulo}"/>
     </f:facet>
         <p:divider/>
-    <h:form>
-        <p:commandButton value="#{msg['producto.boton.crear']}" action="form.xhtml" class="mt-2"/>
+    <h:form id="crearForm">
+        <p:commandButton value="#{msg['producto.boton.crear']}" class="mt-2" onclick="PF('dialogForm').show()" icon="pi pi-plus-circle">
+            <p:resetInput target="formProducto"/>
+        </p:commandButton>
     </h:form>
     <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty productoController.listado}" class="alert alert-warning"/>
         <h:form>
@@ -56,23 +58,24 @@
         <p:column headerText="#{msg['producto.boton.editar']}">
             <h:form id="editarForm">
                 <p:commandButton value="#{msg['producto.boton.editar']}" action="#{productoController.editar(prod.id)}"
-                                 class="ui-button-success"/>
+                                 class="ui-button-success" onclick="PF('dialogForm').show()" icon="pi pi-save" update="formProducto">
+                    <p:resetInput target="formProducto"/>
+                </p:commandButton>
             </h:form>
-        </p:column>
-        <p:column headerText="#{msg['producto.boton.editar']}">
-                <p:linkButton value="#{msg['producto.boton.editar']}2" outcome="form" class="btn btn-sm btn-info">
-                    <f:param name="id" value="#{prod.id}"/>
-                </p:linkButton>
         </p:column>
         <p:column headerText="#{msg['producto.boton.eliminar']}">
             <h:form id="eliminarForm">
                 <p:commandButton value="#{msg['producto.boton.eliminar']}" action="#{productoController.eliminar(prod)}"
                 onclick="return confirm('#{msg['producto.texto.desea.eliminar']}')" update="tabla"
-                               class="ui-button-danger"
+                               class="ui-button-danger" icon="pi pi-trash"
                 />
             </h:form>
         </p:column>
     </p:dataTable>
+        <p:dialog header="#{msg['producto.formulario']} #{productoController.producto.id > 0 ? msg['producto.boton.editar'] : msg['producto.boton.crear']}"
+                  widgetVar="dialogForm" minHeight="200" minWigth="500" showEffect="fade" modal="true">
+            <ui:include src="form.xhtml" />
+        </p:dialog>
     </p:card>
     </ui:define>
 </ui:composition>

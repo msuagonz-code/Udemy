@@ -1,8 +1,8 @@
-package org.sam.webapp.jsf3.services;
+package org.aguzman.webapp.jsf3.services;
 
 import jakarta.ejb.Local;
-import org.sam.webapp.jsf3.entities.Categoria;
-import org.sam.webapp.jsf3.entities.Producto;
+import org.aguzman.webapp.jsf3.entities.Categoria;
+import org.aguzman.webapp.jsf3.entities.Producto;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,5 +15,4 @@ public interface ProductoService {
     void eliminar(Long id);
     List<Categoria> listarCategorias();
     Optional<Categoria> porIdCategoria(Long id);
-    List<Producto> buscarPorNombre(String nombre);
 }

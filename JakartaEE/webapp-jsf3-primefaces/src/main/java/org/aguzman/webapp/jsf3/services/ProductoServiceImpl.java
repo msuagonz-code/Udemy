@@ -1,12 +1,10 @@
-package org.sam.webapp.jsf3.services.impl;
+package org.aguzman.webapp.jsf3.services;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
-import org.sam.webapp.jsf3.entities.Categoria;
-import org.sam.webapp.jsf3.entities.Producto;
-import org.sam.webapp.jsf3.repositories.CrudRepository;
-import org.sam.webapp.jsf3.repositories.ProductoRepository;
-import org.sam.webapp.jsf3.services.ProductoService;
+import org.aguzman.webapp.jsf3.entities.Categoria;
+import org.aguzman.webapp.jsf3.entities.Producto;
+import org.aguzman.webapp.jsf3.repositories.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +13,7 @@ import java.util.Optional;
 public class ProductoServiceImpl implements ProductoService {
 
     @Inject
-    private ProductoRepository repository;
+    private CrudRepository<Producto> repository;
 
     @Inject
     private CrudRepository<Categoria> categoriaRepository;
@@ -48,10 +46,5 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Optional<Categoria> porIdCategoria(Long id) {
         return Optional.ofNullable(categoriaRepository.porId(id));
-    }
-
-    @Override
-    public List<Producto> buscarPorNombre(String nombre) {
-        return repository.buscarPorNombre(nombre);
     }
 }
