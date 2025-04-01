@@ -10,7 +10,7 @@
     </f:metadata>
     <p:panel header="#{msg['producto.formulario']} #{producto.id > 0 ? msg['producto.boton.editar'] : msg['producto.boton.crear']}" >
         <p:linkButton outcome="/index" value="#{msg['producto.boton.volver']}" class="p-my-2"/>
-        <h:form>
+        <h:form id="formProducto" rendered="#{p:ifGranted('ADMIN')}">
                 <div class="field grid">
                 <p:outputLabel value="#{msg['producto.nombre']}" for="nombre" class="p-col-fixed" style="width: 200px"/>
                     <div class="col">

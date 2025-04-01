@@ -18,8 +18,8 @@
         <h:form>
              <p:menubar>
                  <p:menuitem value="#{msg['navbar.texto.inicio']}" outcome="index" icon="pi pi-fw pi-home"/>
-                 <p:menuitem value="#{msg['navbar.texto.crear']}" outcome="form" icon="pi pi-fw pi-plus"/>
-                 <p:menuitem icon="pi pi-fw pi-flag">
+                 <p:menuitem rendered="#{p:ifGranted('ADMIN')}" value="#{msg['navbar.texto.crear']}" outcome="form" icon="pi pi-fw pi-plus"/>
+                 <p:menuitem icon="pi pi-fw pi-flag" rendered="#{p:ifAnyGranted('ADMIN, USER')}">
                          <p:selectOneMenu value="#{lenguajeController.lenguaje}" valueChangeListener="#{lenguajeController.seleccionar}"
                                           onchange="submit()">
                              <f:selectItem itemLabel="#{msg['navbar.texto.cambiar.lenguaje']}" itemValue="es"/>
@@ -30,6 +30,7 @@
         </h:form>
         <div class="p-mb-2">
             <p:messages globalOnly="true" closable="true"/>
+            <h:outputText value="Bienvenido #{p:userPrincipal()}" rendered="#{not empty p:userPrincipal()}"/>
             <ui:insert name="content" />
         </div>
         <p:divider/>

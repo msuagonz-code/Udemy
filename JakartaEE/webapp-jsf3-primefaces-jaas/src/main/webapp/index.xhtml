@@ -10,7 +10,7 @@
         <h:outputText value="#{titulo}"/>
     </f:facet>
         <p:divider/>
-    <h:form>
+    <h:form id="crearForm" rendered="#{p:ifGranted('ADMIN')}">
         <p:commandButton value="#{msg['producto.boton.crear']}" action="form.xhtml" class="mt-2"/>
     </h:form>
     <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty productoController.listado}" class="alert alert-warning"/>
@@ -53,18 +53,18 @@
         <p:column headerText="#{msg['producto.categoria']}">
             <h:outputText value="#{prod.categoria.nombre}" />
         </p:column>
-        <p:column headerText="#{msg['producto.boton.editar']}">
+        <p:column rendered="#{p:ifGranted('ADMIN')}" headerText="#{msg['producto.boton.editar']}">
             <h:form id="editarForm">
                 <p:commandButton value="#{msg['producto.boton.editar']}" action="#{productoController.editar(prod.id)}"
                                  class="ui-button-success"/>
             </h:form>
         </p:column>
-        <p:column headerText="#{msg['producto.boton.editar']}">
+        <p:column rendered="#{p:ifGranted('ADMIN')}" headerText="#{msg['producto.boton.editar']}">
                 <p:linkButton value="#{msg['producto.boton.editar']}2" outcome="form" class="btn btn-sm btn-info">
                     <f:param name="id" value="#{prod.id}"/>
                 </p:linkButton>
         </p:column>
-        <p:column headerText="#{msg['producto.boton.eliminar']}">
+        <p:column rendered="#{p:ifGranted('ADMIN')}" headerText="#{msg['producto.boton.eliminar']}">
             <h:form id="eliminarForm">
                 <p:commandButton value="#{msg['producto.boton.eliminar']}" action="#{productoController.eliminar(prod)}"
                 onclick="return confirm('#{msg['producto.texto.desea.eliminar']}')" update="tabla"
