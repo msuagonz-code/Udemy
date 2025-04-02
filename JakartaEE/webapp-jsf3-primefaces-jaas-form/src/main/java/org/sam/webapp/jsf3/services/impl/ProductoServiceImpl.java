@@ -1,8 +1,10 @@
 package org.sam.webapp.jsf3.services.impl;
 
+import jakarta.annotation.Resource;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.SessionContext;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import org.sam.webapp.jsf3.entities.Categoria;
@@ -11,6 +13,7 @@ import org.sam.webapp.jsf3.repositories.CrudRepository;
 import org.sam.webapp.jsf3.repositories.ProductoRepository;
 import org.sam.webapp.jsf3.services.ProductoService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,9 +27,24 @@ public class ProductoServiceImpl implements ProductoService {
     @Inject
     private CrudRepository<Categoria> categoriaRepository;
 
+    @Resource
+    private SessionContext ctx;
+
     @Override
     @PermitAll
     public List<Producto> listar() {
+        Principal usuario = ctx.getCallerPrincipal();
+        String username = usuario.getName();
+        System.out.println("username: "+ username);
+
+        if(ctx.isCallerInRole("ADMIN")){
+            System.out.println("hola soy un administrador!");
+        } else if (ctx.isCallerInRole("USER")) {
+            System.out.println("hola soy un usuario normal!");
+        }else{
+            System.out.println("hola soy un usuario anonimo!");
+            //throw new SecurityException("Lo sentimos no tienes permisos para acceder a esta página");
+        }
         return repository.listar();
     }
 
