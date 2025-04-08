@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../models/product';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'product-form',
@@ -9,27 +9,21 @@ import { FormsModule } from '@angular/forms';
 })
 export class FormComponent {
   
-  product : Product = {
-    id: 0,
-    name: '',
-    description: '',
-    price: 0
-  };
+  @Input() product : Product = new Product();
 
   @Output() addProductEvent = new EventEmitter();
 
-  onSubmit(): void {
-    console.log(this.product);
-    this.addProductEvent.emit(this.product);
-    this.clean();
+  onSubmit(productForm: NgForm): void {
+    if(productForm.valid){
+      console.log(this.product);
+      this.addProductEvent.emit(this.product);
+      this.clean();
+      productForm.reset();
+      productForm.resetForm();
+    }
   }
    
   clean() : void{
-    this.product = {
-      id: 0,
-      name: '',
-      description: '',
-      price: 0
-    };
+    this.product = new Product();
   }
 }

@@ -1,16 +1,55 @@
 <h2>Form {{ product.id > 0 ? 'Update' : 'Create' }} Product</h2>
-<form (ngSubmit)="onSubmit()" >
+<form (ngSubmit)="onSubmit(productForm)" #productForm="ngForm">
     <div>
-        <input class="form-control my-2" placeholder="name" name="name" [(ngModel)]="product.name"/>
+        <input class="form-control my-2" placeholder="name" name="name" 
+        #name="ngModel"
+        required
+        minlength="4"
+        [(ngModel)]="product.name"/>
+        @if(name.invalid && (name.dirty || name.touched)){
+            <div class="text-danger">
+                @if(name.errors!['required']){
+                    Nombre es requerido
+                }
+                @if(name.errors!['minlength']){
+                    Nombre debe tener al menos 4 caracteres
+                }
+            </div>
+        }
     </div>
     <div>
-        <input class="form-control my-2" placeholder="Description" name="description" [(ngModel)]="product.description"/>
+        <input class="form-control my-2" placeholder="Description" name="description" 
+        #description="ngModel"
+        required
+        [(ngModel)]="product.description"/>
+        @if(description.invalid && (description.dirty || description.touched)){
+            <div class="text-danger">
+                @if(description.errors!['required']){
+                    Descripcion es requerido!
+                }
+            </div>
+        }
     </div>
     <div>
-        <input class="form-control my-2" placeholder="Price" name="price" [(ngModel)]="product.price"/>
+        <input type="number" class="form-control my-2" placeholder="Price" name="price" 
+        #price="ngModel"
+        required min="10"
+        [(ngModel)]="product.price"/>
+        @if(price.invalid && (price.dirty || price.touched)){
+            <div class="text-danger">
+                @if(price.errors!['required']){
+                    El precio es requerido!
+                }
+                @if(price.errors!['min']){
+                    El precio debe ser mayor a 10
+                }
+            </div>
+        }
     </div>
     <div>
-        <button type="submit" class="btn btn-primary my-2" >
+        <button 
+        [disabled]="!productForm.form.valid"
+        type="submit" class="btn btn-primary my-2" >
             {{ product.id > 0 ? 'Update' : 'Create' }}
         </button>
     </div>

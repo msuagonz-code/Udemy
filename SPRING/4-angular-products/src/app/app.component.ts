@@ -2,6 +2,8 @@ import { Component, OnInit, signal, Signal } from '@angular/core';
 import { ProductsComponent } from './components/products.component';
 import { Product } from './models/product';
 import { FormComponent } from './components/form.component';
+import Swal from 'sweetalert2';
+import { ProductService } from './services/product.service';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +14,17 @@ import { FormComponent } from './components/form.component';
 export class AppComponent implements OnInit{
   products : Product[] = [];
   countId = signal(4);
+  productSelected : Product = new Product();
+
+  constructor(private service: ProductService){
+
+  }
 
   ngOnInit(): void {
+
+    this.service.findAll().subscribe(products => this.products = products);
+
+    /*
     this.products = [
       {
         id: 1,
@@ -34,6 +45,7 @@ export class AppComponent implements OnInit{
         description: 'mesa comedor de madera'
       }
     ]
+    */
   }
   
   addProduct(product: Product): void{
@@ -41,8 +53,73 @@ export class AppComponent implements OnInit{
     //this.products = [...this.products, { ...product, id: maxID }];
 
     // Otra forma de hacerlo
-    this.products = [...this.products, { ...product, id: this.countId() }];
-    this.countId.update(id => id + 1);
+
+    if(product.id > 0){
+
+      this.service.update(product).subscribe(productUpdate => {
+
+        this.products = this.products.map(p => {
+          if(p.id == product.id){
+            return {... productUpdate}
+          }
+          return p;
+        })
+  
+        Swal.fire({
+          title: "Producto actualizado!",
+          text: `Producto ${productUpdate.name} Actualizado correctamente!`,
+          icon: "success"
+        });
+
+      });
+
+    }else{
+
+      this.service.create(product).subscribe(productNew => {
+        this.products = [...this.products, { ...productNew }];
+  
+        Swal.fire({
+          title: "Producto creado!",
+          text: `Producto ${productNew.name} Creado correctamente!`,
+          icon: "success"
+        });
+      });
+
+    }
+
+  }
+
+
+  onUpdateProduct(product: Product):void{
+    this.productSelected = {... product}
+  }
+
+  onRemoveProduct(id: number): void{
+
+    Swal.fire({
+        title: "¿Está seguro que desea eliminar?",
+        text: "Cuidado!, va a eliminar un producto del sistema",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, Eliminar!",
+        cancelButtonText: "No, cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          this.service.remove(id).subscribe(productDeleted => {
+            this.products = this.products.filter(product => product.id != id);
+            Swal.fire({
+              title: "Producto eliminado!",
+              text: `Producto ${productDeleted.name} eliminado correctamente!`,
+              icon: "success"
+            });
+          });
+
+        }
+    });
+
   }
 
 }
