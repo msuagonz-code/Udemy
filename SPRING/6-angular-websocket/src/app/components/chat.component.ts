@@ -17,6 +17,13 @@ export class ChatComponent implements OnInit{
   messages: Message[] = [];
   message: Message = new Message();
 
+  writing!: string;
+  clientId!: string;
+
+  constructor(){
+    this.clientId = 'id-'+ new Date().getTime() + '-' + Math.random().toString(36).substring(2)
+  }
+
   ngOnInit(): void {
     this.client = new Stomp.Client({
       brokerURL: undefined,
@@ -27,16 +34,35 @@ export class ChatComponent implements OnInit{
 
     this.client.onConnect = (frame) => {
       this.connected = true;
+      
       console.log(`Conectados ${this.client.connected} : ${frame}`);
-      this.client.subscribe('/chat/message', e => {
-        console.log(e.body);
-        let message: Message = JSON.parse(e.body) as Message;
-        message.date = new Date(message.date);
-          if(this.message.username == message.username && !this.message.color && message.type == 'NEW_USER'){
-            this.message.color = message.color;
-          }
-        this.messages.push(message);
-      });
+
+        this.client.subscribe('/chat/message', e => {
+          console.log(e.body);
+          let message: Message = JSON.parse(e.body) as Message;
+          message.date = new Date(message.date);
+            if(this.message.username == message.username && !this.message.color && message.type == 'NEW_USER'){
+              this.message.color = message.color;
+            }
+          this.messages.push(message);
+        });
+
+        this.client.subscribe('/chat/writing', event =>{
+          this.writing = event.body;
+          setTimeout(() => this.writing='', 3000);
+        });
+
+        console.log(this.clientId);
+
+        this.client.subscribe(`/chat/history/${this.clientId}`, event => {
+          const history =  JSON.parse(event.body) as Message[];
+          this.messages = history
+        });
+
+        this.client.publish({
+          destination:'/app/history', 
+          body: this.clientId
+        });
 
       this.message.type = 'NEW_USER';
       this.client.publish({
@@ -73,5 +99,12 @@ export class ChatComponent implements OnInit{
       body: JSON.stringify(this.message)
     });
     this.message.text = '';
+  }
+
+  onWritingEvent(): void{
+    this.client.publish({
+      destination: '/app/writing',
+      body: this.message.username
+    });
   }
 }

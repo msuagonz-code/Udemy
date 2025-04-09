@@ -30,9 +30,12 @@
                     <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
                 <div class="col me-auto">
-                    <input class="form-control" name="text" placeholder="Escribe un mensaje..." [(ngModel)]="message.text">
+                    <input class="form-control" name="text" placeholder="Escribe un mensaje..." 
+                    [(ngModel)]="message.text"
+                    (keyup)="onWritingEvent()">
                 </div>
             </div>
         </form>
+        <div class="m-2">{{ writing }}</div>
     </div>
 </div>
