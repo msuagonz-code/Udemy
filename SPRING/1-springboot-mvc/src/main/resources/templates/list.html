@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script th:src="@{/js/bootstrap.bundle.min.js}" ></script>
+</head>
+<body>
+      <div class="alert alert-danger" role="alert" th:if="${error != null}" th:text="${error}"></div>
+      <div class="alert alert-success" role="alert" th:if="${success != null}" th:text="${success}"></div>
+
+    <div class="container mt-4 mb-4">
+      <h3 th:text="${title}"></h3>
+
+      <a th:href="@{/users/form}" th:text="'Crear user (+)'" class="btn btn-secondary"></a>
+      <div th:text="'No hay usuarios en el sistema'" th:if="${#lists.isEmpty(users)}"></div>
+      <table class="table table-hover table-striped" th:if="${not #lists.isEmpty(users)}">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>lastname</th>
+            <th>email</th>
+            <th>create at</th>
+            <th>edit</th>
+            <th>remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="user: ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.lastname}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.createdAt}"></td>
+            <td><a class="btn btn-sm btn-primary" th:href="@{/users/form/} + ${user.id}">Edit</a></td>
+            <td><a class="btn btn-sm btn-danger" th:href="@{/users/delete/} + ${user.id}" onclick="return confirm('Está seguro que desea eliminar?')">Delete</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+org\sam\webappear\ear\entities\Usuario.class
+org\sam\webappear\ear\services\UsuarioService.class
+org\sam\webappear\ear\repositories\impl\UsuarioRepositoryImpl.class
+org\sam\webappear\ear\services\impl\UsuarioServiceImpl.class
+org\sam\webappear\ear\repositories\UsuarioRepository.class
+org\sam\webappear\ear\ProducerResources.class

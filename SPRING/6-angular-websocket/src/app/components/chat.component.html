@@ -1,0 +1,41 @@
+<div class="card m-5">
+    <div class="card-header">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item me-2" *ngIf="!connected">
+                <input [(ngModel)]="message.username" placeholder="Tu username" name="username"  class="form-control">
+            </li>
+            <li class="nav-item" *ngIf="!connected">
+                <button class="btn btn-success" type="button" (click)="connect()" [disabled]="!message.username">Conectar</button>
+            </li>
+            <li class="nav-item"  *ngIf="connected">
+                <button class="btn btn-warning" type="button" (click)="deconnect()">Desconectar chat</button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body" style="overflow-y: scroll; height: 360px;"  *ngIf="connected">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let message of messages">
+                @if(message.type == 'NEW_USER'){
+                    {{message.date | date: 'shortTime'}}: {{message.text}} &#64;<span [ngStyle]="{'color': message.color}">{{message.username}}</span>
+                } @else if (message.type == 'MESSAGE'){
+                    {{message.date | date: 'shortTime'}} <span [ngStyle]="{'color': message.color}">{{message.username}}</span> dice:<br/> {{message.text}}
+                }
+            </li>
+        </ul>
+    </div>
+    <div class="card-footer"  *ngIf="connected">
+        <form (ngSubmit)="onSendMessage()">
+            <div class="row">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <div class="col me-auto">
+                    <input class="form-control" name="text" placeholder="Escribe un mensaje..." 
+                    [(ngModel)]="message.text"
+                    (keyup)="onWritingEvent()">
+                </div>
+            </div>
+        </form>
+        <div class="m-2">{{ writing }}</div>
+    </div>
+</div>
