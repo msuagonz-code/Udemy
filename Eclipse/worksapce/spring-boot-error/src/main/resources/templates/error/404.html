@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="'Lo sentimos página no encontrada, 404!'"></title>
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+		<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	</head>
+	<body>		
+		<div class="container">
+			<h1 th:text="'Oops!, página no encontrada'"></h1>
+			<div th:text="${error}"></div>
+			<strong><p th:text="${status}"></p></strong>
+			<div th:text="${timestamp}"></div>
+			<hr>
+			<div th:text="${path}"></div>	
+		</div>
+	</body>
+</html>
