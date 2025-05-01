@@ -14,19 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
-	@Qualifier("clienteDaoJPA")
 	private IClienteDao clienteDao;
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Cliente> findAll() {
-		return clienteDao.findAll();
+		return (List<Cliente>) clienteDao.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Cliente findOne(Long id) {
-		return clienteDao.findOne(id);
+		return clienteDao.findById(id).orElse(null);
 	}
 	
 	@Override
@@ -38,7 +37,7 @@ public class ClienteServiceImpl implements IClienteService {
 	@Override
 	@Transactional
 	public void delete(Long id) {
-		clienteDao.delete(id);		
+		clienteDao.deleteById(id);		
 	}
 	
 }
