@@ -97,6 +97,10 @@ public class ArregloShell {
 		}
 	}
 	
-	
+	public void mostrarElementosOrdenInverso() {
+		for(int j=numElems-1;j>=0;j--)		// recorre todos los elementos del arreglo en orden inverso
+			System.out.print(arr[j] + " ");	// imprime valor en el indice j
+		System.out.println("");				// dejamos linea en blanco
+	}
 	
 }
