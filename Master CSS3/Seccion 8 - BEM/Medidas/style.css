@@ -1,0 +1,12 @@
+body{
+    font-size: 40px;
+}
+.caja{
+    
+    width: 13em;
+    height: 13em;
+    margin: 0 auto;
+    text-align: center;
+    background-color: aquamarine;
+    border:1px solid black;
+}
