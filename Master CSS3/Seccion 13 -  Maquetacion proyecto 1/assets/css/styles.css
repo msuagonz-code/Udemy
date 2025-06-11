@@ -21,6 +21,7 @@
     --color-text:#555;
     --color-border-reviews:#E5E6E7;
     --color-company:#A5A6A7;
+    --color-background-certificate:#F5F5F5;
 }
 
 /*ESTILOS GENERALES*/
@@ -279,7 +280,8 @@ body{
 
 /* ESTILOS GENERALES (SOBRE MI Y OTRAS PÁGINAS) */
 .content__about,
-.content__resume{
+.content__resume, 
+.content__portfolio{
     display: block;
     height: 100%;
     min-height: 100%;
@@ -289,19 +291,22 @@ body{
 }
 
 .about__header,
-.resume__header{
+.resume__header,
+.portfolio__header{
     display: inline-block;
     margin-bottom: 4.5rem;
 }
 
 .about__title,
-.resume__title{
+.resume__title,
+.portfolio__title{
     font-size: 3.2rem;
     position:relative;
 }
 
 .about__title::after,
-.resume__title::after{
+.resume__title::after,
+.portfolio__title::after{
     content: "";
     position: absolute;
     top: 20px;
@@ -310,7 +315,7 @@ body{
     height: 30px;
     background-image: -webkit-repeating-radial-gradient(center center, var(--color-secondary), var(--color-secondary) 1px, transparent 0px, transparent 100% );
     background-size: 6px 6px;
-    opacity: 0.5;
+    opacity: 0.2;
 }
 
 .title__color, .subtitle__color{
@@ -785,18 +790,92 @@ body{
 }
 
 .skills__progressbar{
-    width: 100%;
     height: 1.2rem;
     border: 1px solid var(--color-secondary);
     border-radius: 1rem;
     background-color: var(--color-principal);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .skills__percentage{
-    width: 40%;
+    width: 0%;
     height: 1rem;
     background-color: var(--color-secondary);
     border: 2px solid var(--color-principal);
     border-radius: 1rem;
+}
+
+.skills__percentage--p1{ width: 90%;}
+.skills__percentage--p2{ width: 70%;}
+.skills__percentage--p3{ width: 60%;}
+.skills__percentage--p4{ width: 80%;}
+.skills__percentage--p5{ width: 97%;}
+.skills__percentage--p6{ width: 85%;}
+.skills__percentage--p7{ width: 80%;}
+.skills__percentage--p8{ width: 92%;}
+.skills__percentage--p9{ width: 81%;}
+
+.knowledges__list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.knowledges__option{
+    padding: 0.4rem 1rem;
+    margin: 0.3rem;
+    font-size: 1.3rem;
+    background-color: var(--color-secondary);
+    border-radius: 0.3rem;
+    color:var(--color-principal);
+}
+
+.certificates__container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.certificates__certificate{
+    flex-basis: calc(50% - 1.5rem);
+    border: 2px solid var(--color-border-reviews);
+    border-radius: 0.8rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.certificate__logo{
+    width: 15rem;
+    height: 100%;
+    padding: 2.5rem;
+    display: flex;
+    background-color: var(--color-background-certificate);
+    justify-content: center;
+    align-items: center;
+}
+
+.certificates__image{
+    width: 100%;
+}
+
+.certificate__content{
+    padding: 2rem 2.5rem;
+}
+
+.certificate__title{
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.certificate__id{
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 1.3rem;
+    color:var(--color-subtitle)
+}
+
+.certificate__date{
+    font-size: 1.2rem;
+    color: var(--color-subtitle);
 }
