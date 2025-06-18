@@ -1,0 +1,51 @@
+/* Funciones */
+
+.caja{
+    /*
+    min()
+    max()
+    calc()
+    clamp()
+    linear-gradient()
+    radial-gradient()
+    */
+    width: 80%;
+    height: calc(300px * 2);
+    border: 2px solid red;
+    background: radial-gradient(circle at left, orange, red, lightblue);
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    line-height: calc(300px * 2);
+}
+
+img{
+    /*
+    circle()
+    polygon()
+    ellipse()
+    */
+    width: 250px;
+    height: 250px;
+    border-radius: 900px;
+    box-shadow: 0px 0px 10px gray;
+
+    transform: scale(1.5) translate(400px) rotate(100deg);
+}
+
+/*
+li{
+    list-style-image: url("css-3.png");
+    list-style-type: lower-greek;
+    list-style-position: inside;
+}
+*/
+
+ul{
+    list-style-type: disclosure-closed;
+}
+
+li::marker{
+    color:orangered;
+    font-size: 20px;
+}
