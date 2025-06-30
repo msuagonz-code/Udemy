@@ -77,6 +77,14 @@ body{
     display: none;
 }
 
+.menu-mobile__logo-light{
+    display: block;
+}
+
+.menu-mobile__logo-dark{
+    display: none;
+}
+
 .nav__list{
     display: flex;
     flex-direction: row;

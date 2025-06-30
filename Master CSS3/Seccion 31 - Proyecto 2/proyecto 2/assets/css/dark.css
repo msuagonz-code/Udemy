@@ -34,7 +34,19 @@
     display: block;
 }
 
+.menu-mobile__logo-light{
+    display: none;
+}
+
+.menu-mobile__logo-dark{
+    display: block;
+}
+
 .mobile-btn__line{
+    background-color: var(--color-banner);
+}
+
+.menu-mobile{
     background-color: var(--color-banner);
 }
 
