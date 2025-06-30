@@ -1,0 +1,106 @@
+/* VARIABLES */
+:root{
+    --mx-width: 1320px;
+    --color-text-body: #D3D3D4;
+    --color-primary: #5956E9;
+    --color-secondary: #D3D3D4;
+    --color-banner: #27272E;
+    --color-text-btn: #FFFFFF;
+    --color-bg-btn: #2522BA;
+    --color-subtitle: #c75c6f;
+    --color-title: #D3D3D4;
+    --color-bg-services: #27272E;
+    --color-bg-projects:  #292930;
+    --color-br-dark: #27272E;
+    --color-hover-dark: #FFDC60;
+    --color-text-description: #99A1AA;
+    --color-borders: #393940;
+    --color-input: #171717;
+}
+
+.nav__title:hover{
+    color: var(--color-secondary);
+}
+
+.nav__title::before{
+    background-color: var(--color-secondary);
+}
+
+.navbar__logo-light{
+    display: none;
+}
+
+.navbar__logo-dark{
+    display: block;
+}
+
+.mobile-btn__line{
+    background-color: var(--color-banner);
+}
+
+.nav__submenu{
+    background-color: var(--color-banner);
+}
+
+.submenu__title:hover{
+    color: var(--color-secondary);
+}
+
+.submenu__title::after{
+    background-color: var(--color-secondary);
+}
+
+body{
+    background-color: #212121;
+}
+
+.banner__btn{
+    background-color: var(--color-primary);
+}
+
+.menu__navbar--fixed{
+    background-color: var(--color-banner);
+}
+
+.services__service{
+    background: var(--color-banner);
+    background-color: var(--color-banner);
+}
+
+.project__content{
+    background-color: var(--color-banner);
+}
+
+.project__title:hover{
+    color: var(--color-hover-dark);
+}
+
+.layout__contact::before{
+    background-color: var(--color-banner);
+}
+
+.new__more{
+    color:var(--color-text-body);
+}
+
+.contact__subtitle{
+    color: var(--color-hover-dark);
+}
+
+.contact__btn{
+    background-color: var(--color-primary);
+}
+
+.widget__link:hover{
+    color: var(--color-primary);
+}
+
+.fleft__group{
+    background-color:var(--color-input);
+    box-shadow: none;
+}
+
+.fleft__form-control{
+    background-color:var(--color-input);
+    color: var(--color-title);
+}
