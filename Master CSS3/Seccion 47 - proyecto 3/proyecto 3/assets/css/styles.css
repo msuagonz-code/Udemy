@@ -1,0 +1,1695 @@
+/* Definición de variables */
+:root{
+    --color-principal: #FFFFFF;
+    --color-secondary: #329153;
+    --color-bg-navbar: #333946;
+	--color-border-list: rgba(255, 255, 255, 0.3);
+	--color-hover-sublist-item: rgba(0,0,0, 0.05);
+    --color-shadow: rgba(0,0,0, 0.10);
+    --color-bg-marquee: #EEEEEE;
+    --color-text-marquee: #7C7C7C;
+    --color-titles: #333333;
+    --color-bg-aside: #F5F5F5;
+    --color-twitter: #2FC2EF;
+    --color-facebook: #4C66A4;
+    --color-youtube: #CC181E;
+    --color-instagram: #EA4C89;
+    --color-linkedin: #F4A62A;
+    --color-footer: #222222;
+    --color-footer-down: #111111;
+}
+
+/* Estilos generales */
+
+html{
+    font-size: 10px;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    font-family: "Montserrat", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 1.6rem;
+    background-color: var(--color-principal);
+}
+ 
+/* Barra Decorativa*/
+
+.decoration-bar{
+    width: 100%;
+    min-height: 2.5rem;
+    background-color: var(--color-secondary);
+}
+
+/* Estructura y Layout */
+
+.layout{
+    display: grid;
+    grid-template-areas: 
+        "header header"
+        "nav nav"
+        "marquee marquee"
+        "slider slider"
+        "high high"
+        "videos videos"
+        "carousel carousel"
+        "main aside";
+    grid-template-columns: 70% 30%;
+    width: 55vw;
+    min-width: 100rem;
+    margin: 0 auto;
+}
+
+/* Estilos Header */
+.layout__header{
+    grid-area: header;
+
+    width: 100%;
+    min-width: 100%;
+    padding: 2rem 0;
+}
+
+.header__img{
+    width: 17rem;
+}
+
+/* Estilos Navegación */
+.layout__nav{
+    grid-area: nav;
+    
+    position: relative;
+    width: 100%;
+}
+
+.nav__navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    min-height: 5rem;
+    max-height: 5rem;
+    width: 100%;
+    color: var(--color-principal);
+    background-color: var(--color-bg-navbar);
+}
+
+.navbar__search{
+    display: flex;
+    height: 100%;
+}
+
+.search__input{
+    width: 0;
+    height: 5rem;
+    font-size: 1.6rem;
+    background-color: var(--color-secondary);
+    color: var(--color-principal);
+    outline: none;
+    border: none;
+    transition: all 200ms ease-in-out;
+}
+
+.search__input::placeholder{
+    color: var(--color-principal);
+    padding: 0.5rem;
+    opacity: 1;
+}
+
+.navbar__btn-search{
+    background-color: var(--color-secondary);
+    padding: 0.8rem 1.3rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar__btn-search .fa-solid{
+    cursor: pointer;
+    color: var(--color-principal);
+    font-size: 2.7rem;
+}
+
+.navbar__list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navbar__item{
+    height: 5rem;
+}
+
+.navbar__item:hover{
+    background-color: var(--color-secondary);
+}
+
+.navbar__link{
+    font-weight: 700;
+    font-size: 1.3rem;
+    padding: 1.5rem 1.5rem;
+    color: var(--color-principal);
+}
+
+/* Estilos submenu */
+.navbar__item:hover .navbar__submenu{
+    opacity: 1;
+    visibility: visible;
+    transition: all 300ms ease-in-out;
+}
+
+.navbar__item:hover .submenu_carousel{
+    display: block;
+}
+
+.navbar__submenu{
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-secondary);
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar__submenu--small{
+    left: auto;
+    width: 20%;
+    overflow: visible;
+}
+
+.navbar__submenu--small > .navbar__sublist{
+    width: 100%;
+}
+
+.navbar__sublist{
+	display: inline-block;
+	padding: 1rem;
+	width: 26%;
+}
+
+.sublist__item{
+	padding: 0.1rem 0;
+	position: relative;
+	border-bottom: 1px solid var(--color-border-list);
+}
+
+.sublist__item:last-child{
+    border: none;
+}
+
+.sublist__item:hover{
+	background-color: var(--color-hover-sublist-item);
+}
+
+.sublist__link{
+	color: var(--color-principal);
+	padding: 0.5rem 1rem;
+	font-size: 1.2rem;
+	font-weight: 400;
+	font-style: normal;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.sublist__dropdown{
+    position: absolute;
+    left: 100%;
+    top: 0;
+    padding: 1rem;
+    width: 21rem;
+    background-color: var(--color-principal);
+    box-shadow: 2px 0px 2px -1px var(--color-shadow);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 9;
+}
+
+.sublist__item:hover .sublist__dropdown{
+    opacity: 1;
+    visibility: visible;
+    transition: all 300ms ease-in-out;
+}
+
+.dropdown__item{
+    border-bottom: 1px solid var(--color-hover-sublist-item);
+}
+
+.dropdown__item:hover{
+    background-color: var(--color-hover-sublist-item);
+}
+
+.dropdown__item:last-child{
+    border: none;
+}
+
+.dropdown__link{
+    color: var(--color-bg-navbar);
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    text-transform: uppercase;
+}
+
+/* Estilos carruseles submenu */
+
+.carousel__menu{
+    display: flex;
+    flex-direction: row;
+}
+
+.carousel__item{
+    flex-basis: 25%;
+    position: relative;
+}
+
+.carousel__menu--small > .carousel__item{
+    flex-basis: 25%;
+}
+
+.carousel__container-img{
+    position: relative;
+    width: calc(100% + 3.5rem);
+    height: 35rem;
+    overflow: hidden;
+}
+
+.carousel__img{
+    width: auto;
+    height: 100%;
+}
+
+.carousel__container-rating{
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4.8rem;
+    height: 4.8rem;
+}
+
+/* Circulos de puntuación */
+.conatiner-rating__circle,
+.rating__circle,
+.rating__circle{
+    width: 100%;
+    height: 100%;
+    padding: 0.2rem;
+    border-radius: 3.2rem;
+    background-color: var(--color-secondary);
+}
+
+.container-rating__border,
+.rating__border,
+.circle__border{
+    width: 100%;
+    height: 100%;
+    border-radius: 3.2rem;
+    border: 2px solid var(--color-principal);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-rating__mark,
+.rating__mark,
+.circle__mark{
+    font-weight: 700;
+    color: var(--color-principal);
+}
+
+.carousel__detail{
+    position: absolute;
+    top: 1.5rem;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    text-align: center;
+}
+
+.carousel__link{
+    color: var(--color-principal);
+    background-color: var(--color-shadow);
+    font-size: 1.7rem;
+    text-shadow: 1px 1px 3px black;
+    transition: all 300ms ease;
+}
+
+.carousel__title:hover > .carousel__link{
+    background-color: var(--color-secondary);
+}
+
+/* Estilos Marquesina */
+.layout__marquee{
+    grid-area: marquee;
+    width: 100%;
+    height: 3.5rem;
+    min-height: 3.5rem;
+    padding: 0.5rem;
+    margin-bottom: 3rem;
+    overflow: hidden;
+    background-color: var(--color-bg-marquee);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.marquee__header{
+    position: relative;
+    z-index: 5;
+    font-weight: 400;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-principal);
+    background-color: var(--color-secondary);
+    padding: 0.5rem;
+    margin-right: 1rem;
+}
+
+.marquee__list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10rem;
+}
+
+.marquee__item:first-child{
+    margin-left: 10rem;
+}
+
+.marquee__title{
+    font-size: 1.4rem;
+    font-weight: 700;
+    font-style: normal;
+    white-space: nowrap;
+}
+
+.marquee__link{
+    color: var(--color-text-marquee);
+}
+
+.marquee__link:hover{
+    color: var(--color-secondary);
+}
+
+.marquee__link::before{
+    content: "+ ";
+    color: var(--color-secondary);
+
+}
+
+.marquee__container{
+    display: flex;
+    overflow: hidden;
+}
+
+/* Estilos Slider */
+.layout__slider{
+    grid-area: slider;
+    width: 100%;
+    margin-bottom: 3rem;
+    
+    display: grid;
+    grid-template-areas:    "slider1 slider3 slider3 slider4"
+                            "slider2 slider3 slider3 slider5";
+    row-gap: 0.3rem;
+    column-gap: 0.3rem;
+}
+
+.slider__container--slider1{
+    grid-area: slider1;
+}
+
+.slider__container--slider2{
+    grid-area: slider2;
+}
+
+.slider__container--slider3{
+    grid-area: slider3;
+}
+
+.slider__container--slider4{
+    grid-area: slider4;
+}
+
+.slider__container--slider5{
+    grid-area: slider5;
+}
+
+.slider__container{
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slider__img{
+    width: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.slider__container:hover .slider__img{
+    transform: scale(1.1);
+}
+
+.slider__info{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    color: var(--color-principal);
+}
+
+.slider__category{
+    font-weight: 400;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px var(--color-bg-navbar);
+}
+
+.slider__line{
+    width: 4rem;
+    height: 0.2rem;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    background-color: var(--color-secondary);
+}
+
+.slider__link-title{
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 3px var(--color-bg-navbar);
+    color: var(--color-principal);
+    text-transform: uppercase;
+}
+
+.slider__rating{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 4rem;
+    height: 4rem;
+}
+
+/* Estilos mejores momentos */
+.layout__highlights{
+    grid-area: high;
+    margin-bottom: 3rem;
+
+}
+
+.highlights__posts,
+.posts__container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.highlights__post,
+.posts__post{
+    flex-basis: 33%;
+    height: 100%;
+    border-bottom: 1px solid var(--color-bg-marquee);
+}
+
+.highlights__image,
+.posts__container-image{
+    position: relative;
+    overflow: hidden;
+}
+
+.highlights__img,
+.post__img{
+    transition: all 300ms ease;
+}
+
+.highlights__img:hover,
+.post__img:hover{
+    transform: scale(1.1);
+}
+
+.highlights__category,
+.game__container-category,
+.post__container-category{
+    position:absolute;
+    left:0;
+    bottom: 1rem;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    background-color: var(--color-secondary);
+    transition: all 300ms ease-in-out;
+}
+
+.highlights__category:hover,
+.game__container-category:hover,
+.post__container-category:hover{
+    background-color: var(--color-bg-navbar);
+}
+
+.highlights__name-category,
+.game__cateory,
+.post__category{
+    display: block;
+    font-weight: 400;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--color-principal);
+}
+
+.highlights__title,
+.post__title{
+    font-size: 1.9rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+.highlights__link,
+.post__link{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+
+}
+
+.highlights__title:hover > .highlights__link,
+.post__title:hover > .post__link{
+    color: var(--color-secondary);    
+}
+
+.highlights__meta,
+.post__meta{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+/* Estilos de Autor */
+.highlights__author,
+.main-video__author,
+.video__author,
+.main-post__container-author,
+.news__author,
+.post__author,
+.recent__author{
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    color: var(--color-secondary);
+}
+
+/* Estilos de Fecha */
+.highlights__date,
+.main-video__date,
+.video__date,
+.main-post__date,
+.news__date,
+.post__date{
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--color-text-marquee);
+}
+
+.highlights__description,
+.post__description{
+    font-weight: 500;
+    color: var(--color-titles);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.highlights__footer-post,
+.footer-post__container,
+.footer-info__container,
+.post__footer-post,
+.recent__meta-info{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.footer-post__container,
+.footer-info__container,
+.recent__meta-info{
+    gap: 1rem;
+}
+
+.footer-post__views,
+.footer-post__comments,
+.main-video__views,
+.main-video__comments,
+.main-post__views,
+.main-post__comments,
+.recent__views,
+.recent__comments{
+    display: inline-block;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--color-text-marquee);
+}
+
+.footer-post__views > .fa-solid,
+.footer-post__comments > .fa-solid,
+.main-video__views > .fa-solid,
+.main-video__comments > .fa-solid,
+.main-post__views > .fa-solid,
+.main-post__comments > .fa-solid,
+.recent__views > .fa-solid,
+.recent__comments > .fa-solid{
+    margin-right: 0.2rem;
+    font-size: 1.2rem;
+}
+
+.recent__comments > a,
+.footer-post__comments > a{
+    display: inline;
+}
+
+.footer-post__read-more,
+.main-post__read-more,
+.post__read-more{
+    color: var(--color-text-marquee);
+    border: 1px solid var(--color-text-marquee);
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 0.4rem;
+    text-transform: capitalize;
+    margin-bottom: 2rem;
+}
+
+.footer-post__read-more:hover,
+.main-post__read-more:hover,
+.post__read-more:hover{
+    border: 1px solid var(--color-secondary);
+    color: var(--color-secondary);
+}
+
+/* Estilos Sub Encabezados */
+.news__subheader,
+.games__subheader,
+.login__subheader,
+.posts__subheader,
+.recent__subheader,
+.highlights__subheader,
+.videos__subheader,
+.last-reviews__subheader{
+    width: 100%;
+    height: 3.5rem;
+    margin-bottom: 3rem;
+    background-color: var(--color-bg-navbar);
+    padding: 0.5rem;
+}
+
+.subheader__title,
+.news__title,
+.list-header__title,
+.subheader__title,
+.last-reviews__link-title{
+    display: inline;
+    font-weight: 400;
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0.5rem;
+    color: var(--color-principal);
+    background-color: var(--color-secondary);
+}
+
+/* Estilos Videos */
+.layout__videos{
+    grid-area: videos;
+    width: 100%;
+}
+
+.videos__container{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.videos__main-video{
+    flex-basis: 65%;
+    padding-bottom: 3rem;
+}
+
+.main-video__yt-video{
+    width: 100%;
+    height: 40rem;
+    margin-bottom: 2rem;
+}
+
+.main-video__yt-video > iframe{
+    width: 100%;
+    height: 100%;
+}
+
+.main-video__title{
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+}
+
+.main-video__info{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-bg-marquee);
+}
+
+.main-video__info-container{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.main-video__info-container a{
+    display: inline;
+}
+
+.videos__list{
+    flex-basis: 35%;
+}
+
+.videos__video{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--color-bg-marquee);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.video__detail{
+    flex-basis: 75%;
+}
+
+.video__title{
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.video__link{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+}
+
+.video__title:hover > .video__link{
+    color: var(--color-secondary);
+}
+
+.video__info{
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.video__image{
+    overflow: hidden;
+}
+
+.video__img{
+    transition: all 300ms ease;
+}
+
+.video__image:hover .video__img{
+    transform: scale(1.1);
+}
+
+/* Estilos Carousel */
+.layout__carousel-games{
+    grid-area: carousel;
+    width: 100%;
+    padding: 3rem;
+    margin-bottom: 6rem;
+    background-color: var(--color-bg-navbar);
+}
+
+.carousel-games__list{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+}
+
+.carousel-games__item{
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-games__image{
+    width: 100%;
+}
+
+.carousel-games__rating{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 4rem;
+    height: 4rem;
+}
+
+.carousel-games__info{
+    position: absolute;
+    top: 40%;
+    text-align: center;
+    padding: 0 1rem;
+    transition: all 300ms ease-in-out;
+}
+
+.carousel-games__category{
+    display: block;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-shadow: 1px 1px 3px var(--color-titles);
+    color: var(--color-principal);
+    transition: all 300ms ease-in-out;
+}
+
+.carousel-games__category:hover{
+    color: var(--color-secondary);
+}
+
+.carousel-games__line{
+    height: 0.2rem;
+    width: 4rem;
+    margin: 0.4rem auto;
+    background-color: var(--color-secondary);
+}
+
+.carousel-games__title{
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 3px var(--color-titles);
+    background-color: var(--color-hover-sublist-item);
+}
+
+.carousel-games__link{
+    color: var(--color-principal);
+    transition: all 300ms ease-in-out;
+}
+
+.carousel-games__title:hover .carousel-games__link{
+    color: var(--color-secondary);
+}
+
+/* Estilos principal main */
+.layout__main{
+    grid-area: main;
+    margin-right: 3rem;
+}
+
+/* Estilos Noticias */
+.main__news{
+    width: 100%;
+}
+
+.news__main-post{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    padding-bottom: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-bg-marquee);
+}
+
+.main-post__image{
+    position: relative;
+    overflow: hidden;
+    flex-basis: 50%;
+    height: 20rem;
+}
+
+.main-post__img{
+    width: 100%;
+    height: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.main-post__img:hover{
+    transform: scale(1.1);
+}
+
+.main-post__container-category{
+    position: absolute;
+    left: 0;
+    bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-secondary);
+    transition: all 300ms ease-in-out;
+}
+
+.main-post__container-category:hover{
+    background-color: var(--color-bg-navbar);
+}
+
+.main-post__category{
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--color-principal);
+}
+
+.main-post__info{
+    flex-basis: 50%;
+}
+
+.main-post__title{
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.main-post__link-title{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+}
+
+.main-post__title:hover .main-post__link-title{
+    color: var(--color-secondary);
+}
+
+.main-post__meta,
+.news__data{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.main-post__description{
+    font-size: 1.3rem;
+    color: var(--color-titles);
+    margin-bottom: 1rem;
+}
+
+.main-post__footer-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.news__list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-bottom: 6rem;
+}
+
+.news__post{
+    display: flex;
+    gap: 1rem;
+    flex-basis: calc(50% - 2rem);
+}
+
+.news__image{
+    overflow: hidden;
+    width: 7.5rem;
+    height: 7.5rem;
+}
+
+.news__img{
+    width: 100%;
+    height: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.news__image:hover .news__img{
+    transform: scale(1.1);
+}
+
+.news__detail{
+    width: 75%;
+}
+
+.news__title-post{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.news__link-title{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+}
+
+.news__link-title:hover{
+    color: var(--color-secondary);
+}
+
+.news__data{
+    justify-content: left;
+    gap: 1rem;
+}
+
+/* Sección Juegos */
+
+.main__games{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.games__container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3rem;
+}
+
+.games__game{
+    position: relative;
+    flex-basis: calc(50% - 1.5rem)
+}
+
+.game__container-image{
+    overflow: hidden;
+}
+
+.game__img{
+    width: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.game__img:hover{
+    transform: scale(1.1);
+}
+
+.game__rating{
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    top:0.5rem;
+    right: 0.5rem;
+    z-index: 9;
+}
+
+.game__details{
+    width: 100%;
+    min-height: 6rem;
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    padding-right: 5rem;
+    background-color: rgba(0,0,0, 0.2)
+}
+
+.game__title{
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+
+.game__title:hover .game__link-title{
+    text-shadow: 0px 0px 5px black;
+}
+
+.game__link-title{
+    color: var(--color-principal);
+    transition: all 300ms ease;
+}
+
+/* Últimos artículos */
+.main__posts{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.posts__lists-header,
+.recent__list-header{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.list-header--small{
+    background-color: var(--color-bg-navbar);
+    font-weight: 400;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    padding: 0.5rem;
+    white-space: nowrap;
+}
+
+.posts__container{
+    flex-wrap: wrap;
+}
+
+.posts__post{
+    flex-basis: calc(50% - 2rem);
+}
+
+/* Estilos barra lateral aside */
+.layout__aside{
+    grid-area: aside;
+    background-color: var(--color-bg-aside);
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+
+.login__container{
+    width: 100%;
+}
+
+.login__form{
+    width: 100%;
+}
+
+.form__container-username,
+.form__container-password,
+.form__container-remember{
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.form__label{
+    font-weight: 500;
+}
+
+.form__input{
+    width: 100%;
+    border: 1px solid rgba(0,0,0, 0.10);
+    padding: 0.5rem;
+}
+
+.form__container-remember .form__input,
+.form__container-remember .form__label{
+    width: auto;
+    display: inline-block;
+}
+
+.form__submit{
+    width: 100%;
+    height: 3.7rem;
+    background-color: var(--color-secondary);
+    color: var(--color-principal);
+    border: 1px solid rgba(0,0,0, 0.10);
+    border-radius: 0.3rem;
+    padding: 0.7;
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.login__register,
+.login__lost-pass{
+    display: block;
+    color: var(--color-secondary);
+    font-weight: 500;
+}
+
+/* Estilos Redes Sociales */
+.aside__social{
+    width: 100%;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.social__list{
+    width: 100%;
+}
+
+.social__item{
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 1rem 2rem;
+    color: var(--color-principal);
+    transition: all 300ms ease-in-out;
+    background-color: var(--color-twitter);
+}
+
+.social__item:hover{
+    padding-left: 3rem;
+}
+
+.social__link{
+    display: flex;
+    flex-direction: row;
+    color: var(--color-principal);
+}
+
+.social__icon{
+    margin-right: 1.5rem;
+    margin-top: 0.2rem;
+}
+
+.social__icon > .fa-brands{
+    font-size: 3.5rem;
+}
+
+.social__number{
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.social__word{
+    line-height: 1;
+    font-size: 1.3rem;
+    opacity: 0.75;
+}
+
+.social__item--blue{
+    background-color: var(--color-twitter);
+}
+
+.social__item--dark-blue{
+    background-color: var(--color-facebook);
+}
+
+.social__item--pink{
+    background-color: var(--color-instagram);
+}
+
+.social__item--red{
+     background-color: var(--color-youtube);
+}
+
+.social__item--yellow{
+    background-color: var(--color-linkedin);
+}
+
+/* Estilos ultimos tweets */
+.aside__tweets{
+    font-size: 1.3rem;
+    padding: 1.2rem;
+    margin-bottom: 3rem;
+    background-color: var(--color-twitter);
+    color: var(--color-principal);
+    font-size: 1.3rem;
+}
+
+.tweets__header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+}
+
+.tweets__title{
+    font-weight: 400;
+    font-size: 1.3;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.tweets__header > .fa-brands{
+    margin-right: 1rem;
+}
+
+.tweets__content{
+    margin-bottom: 3rem;
+    hyphens: auto;
+}
+
+/* Estilos post recientes */
+.aside__recent{
+    margin-bottom: 3rem;
+}
+
+.aside__recent .list-header__title{
+    display: inline-block;
+    font-size: 1.3rem;
+    padding: 0.3rem 0.5rem;
+}
+
+.aside__recent .list-header--small{
+    background: none;
+    font-size: 1.1rem;
+    padding: 0.5rem;
+}
+
+.recent__list-posts{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.recent__item{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem
+}
+
+.recent__container-img{
+    width: 7rem;
+    height: 7rem;
+    overflow: hidden;
+}
+
+.recent__img{
+    width: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.recent__img:hover{
+    transform: scale(1.1);
+}
+
+.recent__title{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.recent__detail{
+    width: 100%;
+}
+
+.recent__link-title{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+}
+
+.recent__link-title:hover{
+    color: var(--color-secondary);
+}
+
+.recent__container-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* Estilos ultimas reviews */
+.aside__last-reviews{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.aside__last-reviews .last-reviews__subheader{
+    padding: 0.20rem 0.5rem;
+}
+
+.last-reviews__item--active{
+    margin-bottom: 3rem;
+}
+
+.aside__last-reviews .last-reviews__list-header{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.aside__last-reviews .last-reviews__link-title--small{
+    background: none;
+    font-size: 1.1rem;
+}
+
+.last-reviews__list-reviews{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.list__reviews__item{
+    width: 100%;
+}
+
+.list-reviews__container-title{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-reviews__title{
+    text-align: left;
+    font-size: 1.5rem;
+    text-transform: capitalize;
+}
+
+.list-reviews__title-link{
+    color: var(--color-titles);
+    transition: all 300ms ease-in-out;
+}
+
+.list-reviews__title-link:hover{
+    color: var(--color-secondary);
+}
+
+.list-reviews__mark{
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--color-titles);
+}
+
+.list-review__progressbar{
+    width: 100%;
+    height: 1rem;
+    background-color: var(--color-bg-navbar);
+    margin-top: 0.2rem;
+    border-radius: 0.3rem;
+}
+
+.list-review__bar{
+    height: 100%;
+    border-radius: 0.3rem;
+    background-color: var(--color-secondary);
+}
+
+.list-review__bar--bar1{
+    width: 75%;
+}
+
+.list-review__bar--bar2{
+    width: 65%;
+}
+
+.list-review__bar--bar3{
+    width: 81%;
+}
+
+.list-review__bar--bar4{
+    width: 55%;
+}
+
+.list-review__bar--bar5{
+    width: 90%;
+}
+
+/* Estilos Boton main */
+.posts__read-more{
+    width: 100%;
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    padding: 0.4rem;
+    border: 1px solid var(--color-bg-navbar);
+    transition: all 300ms ease-in-out;
+}
+
+.posts__read-more:hover{
+    background-color: var(--color-secondary);
+    color: var(--color-principal);
+    border-color: var(--color-secondary);
+}
+
+/* Estilos Footer */
+.layout__footer{
+    width: 100%;
+    background-color: var(--color-footer);
+    color: var(--color-principal);
+}
+
+.footer__container{
+    width: 55%;
+    min-width: 100rem;
+    margin: 0 auto;
+    padding: 3rem 0rem;
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+
+.footer__left-container{
+    flex-basis: 33%;
+}
+
+.footer__about{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.about__title,
+.tags__title,
+.footer__title{
+    margin-bottom: 2rem;
+    color: var(--color-secondary);
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+}
+
+.about__description{
+    font-size: 1.3rem;
+    color: var(--color-principal);
+}
+
+.tags__container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tags__tag{
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1.3rem;
+    color: var(--color-principal);
+    background-color: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+    border-radius: 0.3rem;
+    transition: all 280ms ease-in-out;
+}
+
+.tags__tag:hover{
+    background-color: transparent;
+}
+
+.footer__center-container{
+    flex-basis: 33%;
+}
+
+.footer__list-popular{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.list-popular__item{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.list-popular__container-img{
+    width: 7rem;
+    height: 7rem;
+    overflow: hidden;
+}
+
+.list-popular__img{
+    width: 100%;
+    transition: all 280ms ease-in-out;
+}
+
+.list-popular__img:hover{
+    transform: scale(1.1);
+}
+
+.list-popular__detail{
+    flex-basis: 75%;
+}
+
+.list-popular__title{
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.list-popular__container-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.list-popular__author{
+    text-transform: uppercase;
+    color: var(--color-secondary);
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.list-popular__meta-info{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.list-popular__views,
+.list-popular__comments{
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: var(--color-text-marquee);
+    margin-right: 1rem;
+}
+
+.footer__right-container{
+    flex-basis: 33%;
+}
+
+.footer__fslider{
+    position: relative;
+    overflow: hidden;
+    width: 33rem;
+    height: 22rem;
+}
+
+.fslider__img{
+    width: 100%;
+    height: 100%;
+    transition: all 300ms ease-in-out;
+}
+
+.fslider__img:hover{
+    transform: scale(1.1);
+}
+
+.fslider__info{
+    position: absolute;
+    top: 38%;
+    text-align: center;
+    color: var(--color-principal);
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.fslider__category{
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+    text-transform: uppercase;
+}
+
+.fslider__separator{
+    display: block;
+    width: 6rem;
+    height: 0.2rem;
+    margin: 0 auto;
+    background-color: var(--color-secondary);
+}
+
+.fslider__title{
+    font-size: 1.6rem;
+    line-height: 1.4rem;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 3px var(--color-titles);
+}
+
+.footer__description{
+    padding: 2rem;
+    color: var(--color-principal);
+    background-color: var(--color-footer-down);
+}
+
+.footer__text{
+    width: 67%;
+    margin: 0 auto;
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
