@@ -4,10 +4,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.sam.springboot.di.app.springboot_di.models.Product;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-@Primary
+
 @Repository("productFoo")
 public class ProductRepositoryFoo implements ProductRepository{
 
