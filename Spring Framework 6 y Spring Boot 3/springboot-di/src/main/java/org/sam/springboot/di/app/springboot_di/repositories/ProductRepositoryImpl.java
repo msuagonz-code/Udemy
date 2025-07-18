@@ -6,8 +6,7 @@ import java.util.List;
 import org.sam.springboot.di.app.springboot_di.models.Product;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.context.annotation.RequestScope;
-import org.springframework.web.context.annotation.SessionScope;
+
 
 //@RequestScope
 //@SessionScope
