@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.sam.springboot.di.app.springboot_di.models.Product;
 import org.sam.springboot.di.app.springboot_di.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,18 +16,19 @@ public class ProductServiceImpl implements ProductService{
      * De esta manera @Autowired no es necesario
      */
     private ProductRepository repository;
-    private Environment environment;
 
-    public ProductServiceImpl(@Qualifier("productList") ProductRepository repository , Environment environment) {
+    @Value("${config.price.tax}")
+    private Double tax;
+
+    public ProductServiceImpl(@Qualifier("productList") ProductRepository repository) {
         this.repository = repository;
-        this.environment = environment;
     }
 
     @Override
     public List<Product> findAll(){
 
         return repository.findAll().stream().map(p -> {
-            Double priceTax = p.getPrice() * environment.getProperty("config.price.tax", Double.class);
+            Double priceTax = p.getPrice() * tax;
 
             /* Inmutable */
             Product newProduct = (Product) p.clone();
