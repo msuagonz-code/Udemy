@@ -3,11 +3,76 @@ package org.sam.curso.springboot.jpa.springboot_jpa.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.sam.curso.springboot.jpa.springboot_jpa.dto.PersonDto;
 import org.sam.curso.springboot.jpa.springboot_jpa.entities.Person;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 public interface PersonRepository extends CrudRepository<Person, Long>{
+
+    @Query("select min(p.id), max(p.id), sum(p.id), avg(length(p.name)), count(p.id) from Person p")
+    Object getResumeAggregationFunction();
+
+    @Query("select min(length(p.name)) from Person p")
+    Integer getMinLengthName();
+
+    @Query("select max(length(p.name)) from Person p")
+    Integer getMaxLengthName();
+
+    @Query("select p.name, length(p.name) from Person p")
+    List<Object[]> getPersonNameLength();
+
+    @Query("select count(p) from Person p")
+    Long getTotalPerson();
+
+    @Query("select min(p.id) from Person p")
+    Long getMinId();
+
+    @Query("select max(p.id) from Person p")
+    Long getMaxId();
+
+    List<Person> findAllByOrderByNameDesc();
+
+    @Query("select p from Person p order by p.name desc")
+    List<Person> getAllOrdered();
+
+    List<Person> findByIdBetweenOrderByIdDesc(Long id1, Long id2);
+    
+    List<Person> findByNameBetween(String name1, String name2);
+
+    @Query("select p from Person p where p.id between ?1 and ?2 order by p.name desc")
+    List<Person> findAllBetweenId(Long id1, Long id2);
+
+    @Query("select p from Person p where p.name between ?1 and ?2 order by p.name, p.lastname asc")
+    List<Person> findAllBetweenName(String c1, String c2);
+    
+    @Query("select p.id, upper(p.name), lower(p.lastname), upper(p.programmingLanguage) from Person p")
+    List<Object[]> obtenerPersonDataListCase();
+
+    // @Query("select concat(p.name, ' ', p.lastname) from Person p")
+    @Query("select p.name || ' ' || p.lastname from Person p")
+    List<String> findAllFullNameConcat();
+
+    @Query("select upper(p.name || ' ' || p.lastname) from Person p")
+    List<String> findAllFullNameConcatUpper();
+
+    @Query("select lower(concat(p.name, ' ', p.lastname)) from Person p")
+    List<String> findAllFullNameConcatLower();
+
+    @Query("select p.name from Person p")
+    List<String> findAllNames();
+
+    @Query("select distinct(p.name) from Person p")
+    List<String> findAllNamesDistinct();
+    
+    @Query("select count(distinct(p.programmingLanguage)) from Person p")
+    Long findAllProgrammingLanguageDistinctCount();
+    
+    @Query("select distinct(p.programmingLanguage) from Person p")
+    List<String> findAllProgrammingLanguageDistinct();
+
+    @Query("select new org.sam.curso.springboot.jpa.springboot_jpa.dto.PersonDto(p.name, p.lastname) from Person p")
+    List<PersonDto> findAllPersonDto();
 
     @Query("select new Person(p.name, p.lastname) from Person p")
     List<Person> findAllObjectPersonPersonalized();
