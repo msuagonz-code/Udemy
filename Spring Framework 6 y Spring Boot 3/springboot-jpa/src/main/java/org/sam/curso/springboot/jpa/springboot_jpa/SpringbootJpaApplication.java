@@ -29,9 +29,39 @@ public class SpringbootJpaApplication implements CommandLineRunner{
 		// create();
 		// update();
 		// delete();
-		delete2();
+		//delete2();
+		// personalizedQueries();
+		personalizedQueries2();
 	}
 
+	@Transactional(readOnly = true)
+	public void personalizedQueries2(){
+		
+		System.out.println("=============== Consulta findAllMixPerson ===============");
+		
+		List<Object[]> personRegs = repository.findAllMixPerson();
+		personRegs.forEach(reg -> {
+			System.out.println("ProgrammingLanguage" + reg[1] + ", person= "+ reg[0]);
+		});
+
+		System.out.println("=============== Consulta findAllObjectPersonPersonalized ===============");
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueries(){
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ingrese el id para el nombre: ");
+		Long id = scanner.nextLong();
+		scanner.close();
+
+		String name = repository.getNameById(id);
+		System.out.println("el nombre es " + name);
+
+		String fullname = repository.getFullNameById(id);
+		System.out.println("el nombre completo " + fullname);
+	}
+	
 	@Transactional
 	public void delete2(){
 		repository.findAll().forEach(System.out::println);

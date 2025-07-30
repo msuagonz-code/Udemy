@@ -9,6 +9,15 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface PersonRepository extends CrudRepository<Person, Long>{
 
+    @Query("select new Person(p.name, p.lastname) from Person p")
+    List<Person> findAllObjectPersonPersonalized();
+
+    @Query("select p.name from Person p where p.id=?1")
+    String getNameById(Long id);
+
+    @Query("select concat(p.name, ' ', p.lastname) as fullname from Person p where p.id=?1")
+    String getFullNameById(Long id);
+
     @Query("select p from Person p where p.id=?1")
     Optional<Person> findOne(Long id);
 
@@ -26,6 +35,9 @@ public interface PersonRepository extends CrudRepository<Person, Long>{
     List<Person> buscarByProgrammingLanguage(String programmingLanguage, String name);
 
     List<Person> findByProgrammingLanguageAndName(String programmingLanguage, String name);
+
+    @Query("select p, p.programmingLanguage from Person p")
+    List<Object[]> findAllMixPerson();
 
     @Query("select p.name, p.programmingLanguage from Person p")
     List<Object[]> obtenerPersonData();
