@@ -1,5 +1,6 @@
 package org.sam.curso.springboot.jpa.springboot_jpa;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -36,9 +37,38 @@ public class SpringbootJpaApplication implements CommandLineRunner{
 		// personalizedQueriesDistinct();
 		// personalizedQueriesConcatUpperAndLowerCase();
 		// personalizedQueriesBetween();
-		queriesFunctionAggregation();
+		// queriesFunctionAggregation();
+		// subQueries();
+		whereIn();
 	}
 
+	@Transactional(readOnly = true)
+	public void whereIn(){
+
+		System.out.println("=============== Consulta getPersonsById ===============");
+		List<Long> ids = Arrays.asList(1L, 2L, 5L);
+		List<Person> listado = repository.getPersonsById(ids);
+		listado.forEach(System.out::println);
+
+	}
+
+	@Transactional(readOnly = true)
+	public void subQueries(){
+
+		System.out.println("=============== Consulta getShorterName ===============");
+		List<Object[]> registers = repository.getShorterName();
+		registers.forEach(reg -> {
+			String name = (String) reg[0];
+			Integer length = (Integer) reg[1];
+			System.out.println("Nombre: "+ name +", length: "+ length);
+		});
+
+		System.out.println("=============== Consulta getLastRegistration ===============");
+		Optional<Person> optionalPerson = repository.getLastRegistration();
+		optionalPerson.ifPresent(System.out::println);
+
+	}
+	
 	@Transactional(readOnly = true)
 	public void queriesFunctionAggregation(){
 
