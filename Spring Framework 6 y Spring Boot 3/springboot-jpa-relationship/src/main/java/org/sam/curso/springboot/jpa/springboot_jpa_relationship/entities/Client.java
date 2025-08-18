@@ -5,12 +5,14 @@ import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -40,6 +42,13 @@ public class Client {
     // Un cliente muchas direcciones, bidireccional
     @OneToMany( cascade =  CascadeType.ALL, orphanRemoval = true, mappedBy = "client")
     private Set<Invoice> invoices;
+
+    /*
+     * Donde va el mapped by es la clase padre
+     * Donde va el joinColumn es la clase hija que es dueña de la relación
+     */
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "client")
+    private ClientDetails clientDetails;
 
     public Client() {
         this.addresses = new HashSet<>();
@@ -103,6 +112,21 @@ public class Client {
         invoice.setClient(null);
     }
 
+    public ClientDetails getClientDetails() {
+        return clientDetails;
+    }
+
+    public void setClientDetails(ClientDetails clientDetails) {
+        this.clientDetails = clientDetails;
+        clientDetails.setClient(this);
+    }
+
+    public void removeClientDetails(ClientDetails clientDetails) {
+        clientDetails.setClient(null);
+        this.clientDetails = null;
+    }
+
+
     @Override
     public String toString() {
         return "{id= " + id 
@@ -110,6 +134,7 @@ public class Client {
         + ", lastname= " + lastname 
         + ", invoices= " + invoices
         + ", addresses= "+ addresses 
+        + ", clientDeatils= "+ clientDetails 
         +"}";
     }
 

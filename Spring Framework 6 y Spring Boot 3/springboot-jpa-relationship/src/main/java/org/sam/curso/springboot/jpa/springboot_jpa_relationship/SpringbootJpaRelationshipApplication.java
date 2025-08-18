@@ -46,21 +46,66 @@ public class SpringbootJpaRelationshipApplication implements CommandLineRunner{
 		// oneToManyInvoiceBidireccionalFindById();
 		// removeInvoiceBidireccionalFindById();
 		// removeInvoiceBidireccional();
-		oneToOne();
+		// oneToOne();
+		// oneToOneFindById();
+		// oneToOneBidireccional();
+		oneToOneBidireccionalFindById();
 
 	}
 
 	@Transactional	
-	private void oneToOne(){
+	private void oneToOneBidireccionalFindById(){
+		
+		Optional<Client> clientOptional = clientRepository.findOne(1L);
 
+		clientOptional.ifPresent(client ->{
+			ClientDetails clientDetails = new ClientDetails(true, 5000);
+					
+			client.setClientDetails(clientDetails);
+			
+			clientRepository.save(client);
+			
+			System.out.println(client);
+		});
+	}
+
+	@Transactional	
+	private void oneToOneBidireccional(){
+		
 		Client client = new Client("Erba", "Pura");
-
-		client = clientRepository.save(client);
-
 		ClientDetails clientDetails = new ClientDetails(true, 5000);
-		clientDetails.setClient(client);
+		
+		client.setClientDetails(clientDetails);
+
+		clientRepository.save(client);
+
+		System.out.println(client);
+	}
+
+	@Transactional	
+	private void oneToOneFindById(){
+		ClientDetails clientDetails = new ClientDetails(true, 5000);
 		clientDetailsRepository.save(clientDetails);
 
+		Optional<Client> clientOptional = clientRepository.findOne(2L);
+		clientOptional.ifPresent(client -> {
+			client.setClientDetails(clientDetails);
+			clientRepository.save(client);
+			
+			System.out.println(client);
+		});
+	}
+
+	@Transactional	
+	private void oneToOne(){
+		ClientDetails clientDetails = new ClientDetails(true, 5000);
+		clientDetailsRepository.save(clientDetails);
+
+		Client client = new Client("Erba", "Pura");
+		client.setClientDetails(clientDetails);
+		client = clientRepository.save(client);
+
+		System.out.println(client);
 	}
 
 	@Transactional
