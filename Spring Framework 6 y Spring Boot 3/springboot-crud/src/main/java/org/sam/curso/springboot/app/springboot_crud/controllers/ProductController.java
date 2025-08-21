@@ -1,8 +1,11 @@
 package org.sam.curso.springboot.app.springboot_crud.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.sam.curso.springboot.app.springboot_crud.entities.Product;
 import org.sam.curso.springboot.app.springboot_crud.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +47,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@Valid @RequestBody Product product, BindingResult result ){
+    public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result ){
+        if(result.hasFieldErrors()){
+            return validation(result);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
+        if(result.hasFieldErrors()){
+            return validation(result);
+        }
         Optional<Product> producOptional = service.update(id, product);
         if(producOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.CREATED).body(producOptional.orElseThrow());
@@ -65,4 +74,15 @@ public class ProductController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    private ResponseEntity<?> validation(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+
+        result.getFieldErrors().forEach(err -> {
+            errors.put(err.getField(), "El campo "+ err.getField() +" "+ err.getDefaultMessage());
+        });
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+
 }
