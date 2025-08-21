@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.catalina.connector.Response;
 import org.sam.curso.springboot.app.springboot_crud.entities.Product;
 import org.sam.curso.springboot.app.springboot_crud.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,9 @@ public class ProductController {
     @Autowired
     private ProductService service;
 
+    // @Autowired
+    // private ProductValidation validation;
+
     @GetMapping
     public List<Product> list(){
         return service.findAll();
@@ -48,6 +50,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result ){
+        // validation.validate(product, result);
         if(result.hasFieldErrors()){
             return validation(result);
         }
@@ -56,6 +59,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
+        // validation.validate(product, result);
         if(result.hasFieldErrors()){
             return validation(result);
         }

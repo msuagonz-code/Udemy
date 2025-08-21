@@ -1,5 +1,8 @@
 package org.sam.curso.springboot.app.springboot_crud.entities;
 
+import org.sam.curso.springboot.app.springboot_crud.validation.IsExistsDb;
+import org.sam.curso.springboot.app.springboot_crud.validation.IsRequired;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,15 +22,21 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @IsExistsDb
+    @IsRequired
+    private String sku;
+
+    // @NotEmpty(message = "{NotEmpty.product.name}")
+    @IsRequired(message = "{IsRequired.product.name}")
     @Size(min=3, max = 80)
     private String name;
 
-    @Min(500)
-    @NotNull
+    @Min(value = 500, message = "{Min.product.price}")
+    @NotNull(message = "{NotNull.product.price}")
     private Integer price;
 
-    @NotBlank
+    // @NotBlank(message = "{NotBlack.product.description}")
+    @IsRequired
     private String description;
 
     public Long getId() {
@@ -62,4 +71,13 @@ public class Product {
         this.description = description;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    
 }
