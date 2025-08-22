@@ -3,7 +3,8 @@ package org.sam.curso.springboot.app.springboot_crud.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.sam.curso.springboot.app.springboot_crud.validation.ExistsByUsername;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,16 +31,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @ExistsByUsername
     @NotBlank
     @Size(min = 4, max = 18)
+    @Column(unique = true)
     private String username;
 
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @JsonIgnoreProperties({"users"})
+    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
     @ManyToMany
     @JoinTable(
         name = "users_roles",
