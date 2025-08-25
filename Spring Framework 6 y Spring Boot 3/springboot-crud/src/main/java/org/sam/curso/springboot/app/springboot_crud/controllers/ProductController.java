@@ -10,7 +10,9 @@ import org.sam.curso.springboot.app.springboot_crud.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200",originPatterns = "*")
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -33,11 +36,13 @@ public class ProductController {
     // private ProductValidation validation;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Product> list(){
         return service.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> view(@PathVariable Long id){
         Optional<Product> productOptional = service.findById(id);
         
@@ -49,6 +54,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result ){
         // validation.validate(product, result);
         if(result.hasFieldErrors()){
@@ -58,6 +64,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
         // validation.validate(product, result);
         if(result.hasFieldErrors()){
@@ -65,12 +72,14 @@ public class ProductController {
         }
         Optional<Product> producOptional = service.update(id, product);
         if(producOptional.isPresent()){
+
             return ResponseEntity.status(HttpStatus.CREATED).body(producOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id){
         Optional<Product> productOptional = service.delete(id);
         if(productOptional.isPresent()){
