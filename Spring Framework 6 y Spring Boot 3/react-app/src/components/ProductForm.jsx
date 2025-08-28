@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const initialDataForm = {
+    id:0,
     name:'',
     description:'',
     price: ''
 }
-export const ProductForm = ({handlerAdd}) => {
+export const ProductForm = ({productSelected, handlerAdd}) => {
     
     const[form, setForm] = useState(initialDataForm);
 
-    const{name, description, price} = form;
+    const{id, name, description, price} = form;
+
+    useEffect(() => {
+        setForm(productSelected)
+    }, [productSelected]);
 
     return (
         <form onSubmit={(event) => {
@@ -25,7 +30,7 @@ export const ProductForm = ({handlerAdd}) => {
             <div>
                 <input 
                     placeholder="Name"
-                    style={{'marginBottom': '2px'}}
+                    className="form-control my-3 w-75"
                     name="name"
                     value={name}
                     onChange={ event => setForm({
@@ -36,7 +41,7 @@ export const ProductForm = ({handlerAdd}) => {
             <div>
                 <input 
                     placeholder="Description"
-                    style={{'marginBottom': '2px'}}
+                    className="form-control my-3 w-75"
                     name="description"
                     value={description}
                     onChange={ event => setForm({
@@ -47,7 +52,7 @@ export const ProductForm = ({handlerAdd}) => {
             <div>
                 <input 
                     placeholder="Price"
-                    style={{'marginBottom': '2px'}}
+                    className="form-control my-3 w-75"
                     name="price"
                     value={price}
                     onChange={ event => setForm({
@@ -56,7 +61,9 @@ export const ProductForm = ({handlerAdd}) => {
                 />
             </div>
             <div>
-                <button type="submit">Create</button>
+                <button type="submit" className="btn btn-primary">
+                    {id > 0 ? 'Update' : 'Create'}
+                </button>
             </div>
         </form>
     );
