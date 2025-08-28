@@ -12,7 +12,16 @@ export const ProductForm = () => {
     const{name, description, price} = form;
 
     return (
-        <form>
+        <form onSubmit={(event) => {
+            event.preventDefault();
+            if(!name || !description || !price){
+                alert('Debe de completar los datos del formulario!');
+                return;
+            }
+
+            console.log(form);
+            setForm(initialDataForm);
+        }}>
             <div>
                 <input 
                     placeholder="Name"
