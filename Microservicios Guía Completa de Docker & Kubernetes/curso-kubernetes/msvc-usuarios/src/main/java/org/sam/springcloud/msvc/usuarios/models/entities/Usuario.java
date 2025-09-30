@@ -1,7 +1,7 @@
 package org.sam.springcloud.msvc.usuarios.models.entities;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 @Entity
 @Table(name="usuarios")
