@@ -1,4 +1,4 @@
-package org.sam.springcloud.msvc.cursos.entities;
+package org.sam.springcloud.msvc.cursos.models.entities;
 
 import jakarta.persistence.*;
 

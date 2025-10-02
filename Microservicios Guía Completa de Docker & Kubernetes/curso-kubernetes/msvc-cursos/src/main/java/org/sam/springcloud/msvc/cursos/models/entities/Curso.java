@@ -1,8 +1,8 @@
-package org.sam.springcloud.msvc.cursos.entities;
+package org.sam.springcloud.msvc.cursos.models.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import org.sam.springcloud.msvc.cursos.models.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,12 @@ public class Curso {
     @JoinColumn(name = "curso_id") // Crea el campo en la otra tabla
     private List<CursoUsuario> cursoUsuarios;
 
+    @Transient
+    private List<Usuario> usuarios;
+
     public Curso() {
         cursoUsuarios = new ArrayList<>();
+        usuarios = new ArrayList<>();
     }
 
     public long getId() {
@@ -58,4 +62,11 @@ public class Curso {
         this.cursoUsuarios.remove(cursoUsuario);
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 }

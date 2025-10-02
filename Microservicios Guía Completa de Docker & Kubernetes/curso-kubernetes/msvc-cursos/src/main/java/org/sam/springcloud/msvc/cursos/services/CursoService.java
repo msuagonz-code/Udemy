@@ -1,6 +1,6 @@
 package org.sam.springcloud.msvc.cursos.services;
 
-import org.sam.springcloud.msvc.cursos.entities.Curso;
+import org.sam.springcloud.msvc.cursos.models.entities.Curso;
 
 import java.util.List;
 import java.util.Optional;

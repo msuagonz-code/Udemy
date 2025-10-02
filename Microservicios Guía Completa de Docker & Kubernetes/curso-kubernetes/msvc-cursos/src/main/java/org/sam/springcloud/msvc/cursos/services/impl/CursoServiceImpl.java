@@ -1,6 +1,6 @@
 package org.sam.springcloud.msvc.cursos.services.impl;
 
-import org.sam.springcloud.msvc.cursos.entities.Curso;
+import org.sam.springcloud.msvc.cursos.models.entities.Curso;
 import org.sam.springcloud.msvc.cursos.repositories.CursoRepository;
 import org.sam.springcloud.msvc.cursos.services.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
