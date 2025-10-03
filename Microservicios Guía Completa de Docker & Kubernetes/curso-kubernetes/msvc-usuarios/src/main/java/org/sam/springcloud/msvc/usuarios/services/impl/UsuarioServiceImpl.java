@@ -1,5 +1,6 @@
 package org.sam.springcloud.msvc.usuarios.services.impl;
 
+import org.sam.springcloud.msvc.usuarios.clients.CursoClienteRest;
 import org.sam.springcloud.msvc.usuarios.models.entities.Usuario;
 import org.sam.springcloud.msvc.usuarios.repositories.UsuarioRepository;
 import org.sam.springcloud.msvc.usuarios.services.UsuarioService;
@@ -15,6 +16,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private UsuarioRepository repository;
+
+    @Autowired
+    private CursoClienteRest client;
 
     @Override
     @Transactional(readOnly = true)
@@ -38,16 +42,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Transactional
     public void eliminar(Long id) {
         repository.deleteById(id);
+        client.eliminarCursoUsuario(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    public List<Usuario> listarPorIds(Iterable<Long> ids) {
+        return (List<Usuario>) repository.findAllById(ids);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Optional<Usuario> findByEmail(String email) {
         // repository.findByEmail(email);
         return repository.porEmail(email);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean existePorEmail(String email) {
         return repository.existsByEmail(email);
     }

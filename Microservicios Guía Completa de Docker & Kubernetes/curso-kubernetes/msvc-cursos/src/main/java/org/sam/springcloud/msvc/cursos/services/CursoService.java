@@ -12,9 +12,13 @@ public interface CursoService {
 
     Optional<Curso> porId(Long id);
 
+    Optional<Curso> porIdConUsuarios(Long id);
+
     Curso guardar(Curso curso);
 
     void eliminar(Long id);
+
+    void eliminarCursoUsuarioPorId(Long id);
 
     /*
     * Metodos remotos
