@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine AS builder
+FROM maven:3.9.6-eclipse-temurin-21-jammy AS builder
 
 WORKDIR /app/msvc-usuarios
 
@@ -15,12 +15,12 @@ COPY ./msvc-usuarios/src ./src
 
 RUN ./mvnw clean package -DskipTests
 
-FROM openjdk:17-jdk-alpine
+FROM maven:3.9.6-eclipse-temurin-21-jammy
 
 WORKDIR /app
-
+RUN mkdir ./logs
 COPY --from=builder /app/msvc-usuarios/target/msvc-usuarios-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 8001
 
-ENTRYPOINT ["java", "-jar", "msvc-usuarios-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "msvc-usuarios-0.0.1-SNAPSHOT.jar"]
